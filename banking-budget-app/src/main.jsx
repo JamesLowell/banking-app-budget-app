@@ -1,16 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import BudgetApp from './BudgetApp'
-import BankingApp from './BankingApp'
-import LandingPage from './LandingPage'
-import Login from './login-signup/Login'
+import CustomerList from './bank-components/CustomerList'
+import UserDetails from './bank-components/UserDetails'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import './index.css'
+
+const router = createBrowserRouter([
+  {
+    path:'/',
+    element: <CustomerList />
+  },
+  {
+    path: 'customer/:customerId',
+    element: <UserDetails />
+  }
+])
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <BudgetApp/>
-    <BankingApp/> */}
-    <LandingPage/>
-    {/* <Login /> */}
+      <RouterProvider router={router} /> 
   </React.StrictMode>,
 )
