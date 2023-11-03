@@ -1,12 +1,56 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import BudgetApp from './BudgetApp'
-import BankingApp from './BankingApp'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import DashBoard from './pages/dashboard.jsx'
+import BankingApp from './bankingApp.jsx'
+import Settings from './pages/setting.jsx'
+import NewUser from './pages/newuser.jsx'
+import Home from './pages/home.jsx'
+import NotFound from './pages/NotFound.jsx'
+import UserInfo from './pages/UserInfo.jsx'
+import CustomerList from './bank-components/CustomerList'
+import UserDetails from './bank-components/UserDetails'
 import './index.css'
+
+const router = createBrowserRouter([
+  {
+    path:'/',
+    element: <CustomerList />
+  },
+  {
+    path: "/",
+    element: <BankingApp/>,
+    children: [
+      {
+        path: "", 
+        element: <Home/> 
+      },
+      {
+        path: "dashboard",
+        element: <DashBoard/>
+      },
+      {
+        path: "new-user",
+        element: <NewUser/>
+      },
+      {
+        path: "settings",
+        element: <Settings/>
+      },
+      {
+        path: 'customer/:customerId',
+        element: <UserInfo />
+      }
+    ]
+  },
+  {
+    path: "*",
+    element: <NotFound/>
+  }
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BudgetApp/>
-    <BankingApp/>
+    <RouterProvider router={router}/>
   </React.StrictMode>,
 )
