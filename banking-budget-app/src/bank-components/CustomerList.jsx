@@ -47,7 +47,7 @@ const CustomerList = () => {
               <h2 className='w-1/5'>{user.lastName}</h2>
               <h2 className='w-1/5'>{user.email}</h2>
               <h2 className='w-1/5'>{user.address}</h2>
-              <Link to={`/customer/${user.id}`} state={user}>
+              <Link to={`/customer/${user.id}`}>
   <button className='w-[200px] bg-[#FCB847] rounded-full'>View Account</button>
 </Link>
             </div>)
