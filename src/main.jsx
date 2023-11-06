@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -10,9 +11,33 @@ import NotFound from './pages/NotFound.jsx';
 import UserInfo from './pages/UserInfo.jsx';
 import CustomerList from './bank-components/CustomerList';
 import UserDetails from './bank-components/UserDetails';
-import './index.css';
 import { getContact } from './GetContact.jsx';
+import Login from './pages/login';
+import Register from './pages/register';
+import Dashboard from './pages/dboard-ref';
+import ExpenseTracker from './pages/expense-tracker';
+import ProtectedRoute  from './component/protected-route';
+import '../src/App.css';
+import './index.css';
+
 const router = createBrowserRouter([
+  {
+    path:"/budget/login",
+    element: <Login />,
+    index:true
+  },
+  {
+    path:"/register",
+    element: <Register />,
+  },
+  {
+    path:"/dashboard",
+    element: <ProtectedRoute> <Dashboard /> </ProtectedRoute>,
+  },
+  {
+    path:"/expense",
+    element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
+  },
   {
     path: '/',
     element: <CustomerList />,
