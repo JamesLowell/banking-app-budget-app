@@ -25,7 +25,6 @@ const CustomerList = () => {
     }
     loadUsers()
   }, [debouncedSearch])
-
   return (
     <section className='bg-[#F3F2E8] w-full p-4'>
       <div className='bg-[#F7DAA8] w-full font-abril text-4xl text-center py-4'>All Customers</div>
