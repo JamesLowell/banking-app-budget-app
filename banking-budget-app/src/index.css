@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.border-dashed {
+  --border-dash: 4px; /* Customize the dash length */
+  --border-gap: 4px; /* Customize the gap length between dashes */
+  --border-width: 1px; /* Customize the border width */
+}
