@@ -19,12 +19,12 @@ const NavBarSide = () => {
 
       
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='dashboard' className='item'>
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='banking/dashboard' className='item'>
         <span><LuLayoutDashboard/></span>
         <div className='text'>Dashboard</div>
       </NavLink>
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='/' className='item'>
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='customer-list' className='item'>
         <span><AiOutlineSearch/></span>
         <div className='text'>Search</div>
       </NavLink>
