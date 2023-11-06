@@ -19,20 +19,20 @@ const Feature = () => {
             We provide the best feature for those of you who want to manage your money well in the future of course only available here.
           </p>
         </div>
-        <div>
-          <div className='border-2 border-black rounded-lg bg-white p-4'>
+        <div className='flex flex-wrap gap-8'>
+          <div className='border-2 border-black rounded-lg bg-white p-4 min-w-[400px] w-[45%]'>
             <h2 className='font-abril text-xl'>Free Transaction</h2>
             <p className='font-mulish text-md'>Additional admin fees like other banks in general</p>
           </div>
-          <div className='border-2 border-black rounded-lg bg-white p-4'>
+          <div className='border-2 border-black rounded-lg bg-white p-4 min-w-[400px] w-[45%]'>
             <h2 className='font-abril text-xl'>Insurance</h2>
             <p className='font-mulish text-md'>Learn about insurancec for your home and belongings</p>
           </div>
-          <div className='border-2 border-black rounded-lg bg-white p-4'>
+          <div className='border-2 border-black rounded-lg bg-white p-4 min-w-[400px] w-[45%]'>
             <h2 className='font-abril text-xl'>Credit Card</h2>
             <p className='font-mulish text-md'>We will help you make a credit card for emergency needs</p>
           </div>
-          <div className='border-2 border-black rounded-lg bg-white p-4'>
+          <div className='border-2 border-black rounded-lg bg-white p-4 min-w-[400px] w-[45%]'>
             <h2 className='font-abril text-xl'>Invessting</h2>
             <p className='font-mulish text-md'>We will help you create a clear path to your financial goals</p>
           </div>

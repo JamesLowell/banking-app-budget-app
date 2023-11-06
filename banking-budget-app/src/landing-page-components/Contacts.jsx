@@ -22,7 +22,7 @@ const Contacts = () => {
             <div className='flex gap-32 text-white font-mulish'>
                 <div>
                     <p className='font-black mb-4'>About</p>
-                    <ul className='flex flex-col gap-2'>
+                    <ul className='flex flex-col gap-2 cursor-pointer'>
                         <li>About us</li>
                         <li>Creators</li>
                         <li>Features</li>
@@ -31,7 +31,7 @@ const Contacts = () => {
                 </div>
                 <div>
                     <p className='font-black mb-4'>Company</p>
-                    <ul className='flex flex-col gap-2'>
+                    <ul className='flex flex-col gap-2 cursor-pointer'>
                         <li>Our Team</li>
                         <li>Partner</li>
                         <li>Faq</li>
@@ -40,7 +40,7 @@ const Contacts = () => {
                 </div>
                 <div>
                     <p className='font-black mb-4'>Support</p>
-                    <ul className='flex flex-col gap-2'>
+                    <ul className='flex flex-col gap-2 cursor-pointer'>
                         <li>Forbes</li>
                         <li>Visa</li>
                         <li>Gcash</li>
@@ -50,7 +50,7 @@ const Contacts = () => {
                 </div>
                 <div>
                     <p className='font-black mb-4'>Social Media</p>
-                    <ul className='flex flex-col gap-2'>
+                    <ul className='flex flex-col gap-2 cursor-pointer'>
                         <li>Facebook</li>
                         <li>Instagram</li>
                         <li>Twitter</li>
