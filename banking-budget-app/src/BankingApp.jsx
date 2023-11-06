@@ -1,9 +1,13 @@
 import React from 'react'
+import NavbarLeft from './bank-components/NavbarLeft'
 
 const BankingApp = () => {
+  
   return (
-    <div>BankingApp</div>
+    <>
+      <NavbarLeft />
+    </>
   )
-}
+} 
 
 export default BankingApp
