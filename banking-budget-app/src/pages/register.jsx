@@ -76,7 +76,7 @@ const Register = () => {
       alert("Registration successful.");
   
       // Retrieve the existing data from localStorage
-      const existingData = JSON.parse(localStorage.getItem("user-info")) || [];
+      const existingData = JSON.parse(localStorage.getItem("users-list") || "[]");
   
       // Create a new entry with the user's information
       const newUserEntry = {
@@ -90,7 +90,7 @@ const Register = () => {
       existingData.push(newUserEntry);
   
       // Store the updated data in localStorage
-      localStorage.setItem("user-info", JSON.stringify(existingData));
+      localStorage.setItem("users-list", JSON.stringify(existingData));
     }
   }
 

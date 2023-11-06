@@ -6,17 +6,25 @@ import Box from '@mui/material/Box';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import FolderIcon from '@mui/icons-material/Folder';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AddToQueueIcon from '@mui/icons-material/AddToQueue';
+import Alert from '@mui/material/Alert';
 
 
 function Copyright(props) {
@@ -31,6 +39,7 @@ function Copyright(props) {
     </Typography>
   );
 }
+
 
 const drawerWidth = 240;
 
@@ -82,20 +91,49 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      // main: '#1A1A1A',
       main: '#FFB946',
     },
     secondary: {
       main: '#FFB946',
     },
   },
+  typography: {
+    fontFamily:'Geomanist'
+  },
 });
 
+function MoneyActionIcon(props) {
+  const { text, icon } = props;
+
+  return (
+    <Paper
+      sx={{
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        cursor: 'pointer',
+        fontFamily: 'Roboto',
+        '&:hover': {
+          backgroundColor: '#FFB946',
+          
+        },
+      }}
+    >
+      {icon}
+      <Typography variant="subtitle1" color="textSecondary">
+        {text}
+      </Typography>
+    </Paper>
+  );
+}
+
 export default function Dashboard() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -120,43 +158,19 @@ export default function Dashboard() {
               <MenuIcon />
             </IconButton>
             <Typography
-              component="h1"
-              variant="h6"
+              fontFamily='ITC Benguiat Std'
+              fontWeight={700}
+              variant="h4"
               color="inherit"
               noWrap
               sx={{ flexGrow: 1 }}
             >
               Welcome, User!
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <Typography>Logout</Typography>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">
-            {"Icon 1"}
-            <Divider sx={{ my: 1 }} />
-            {"Icon 2"}
-            <Divider sx={{ my: 1 }} />
-            {"Icon 3"}
-          </List>
-        </Drawer>
+        
         <Box
           component="main"
           sx={{
@@ -171,43 +185,78 @@ export default function Dashboard() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
+            <Grid container spacing={4}>
               {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
+              <Grid item xs={12} md={8} lg={6}>
                 <Paper
                   sx={{
-                    p: 6,
+                    p: 10 ,
                     display: 'flex',
                     flexDirection: 'column',
                     height: 240,
-                    backgroundColor: 'black',
+                    backgroundColor: 'white',
+                    border: '1px solid black',
+                    boxShadow: '4px 4px 1px rgba(0, 0, 0, 0.9)',
                   }}
                 >
-                  <Typography variant="h3" color="white" fontWeight={700}>
+                  <Typography  fontWeight={700} fontFamily='ITC Benguiat Std' letterSpacing={1} variant='h5'>
                     Account Balance
+                  </Typography>
+                  <Typography variant="h2" fontWeight={700}>
+                    Php 0.00 {/*Insert balance here*/}
                   </Typography>
                 </Paper>
               </Grid>
 
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  {/* <Deposits /> */}
-                </Paper>
-              </Grid>
 
+          {/* Create Budget, Create Goals, View Budget & Goals, Expense Tracker ICONS */}
+          <Grid item xs={12} md={4} lg={6} sx={{p: 3, display: 'flex', flexWrap: 'wrap'}}>
+            <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} />
+            <MoneyActionIcon text="Create Goals" icon={<AttachMoneyIcon fontSize="large" />} />
+            <MoneyActionIcon text="View Budgets and Goals" icon={<AttachMoneyIcon fontSize="large" />} />
+            <a href='/expense'><MoneyActionIcon text="Expense Tracker" icon={<AttachMoneyIcon fontSize="large" />} /></a>
+          </Grid>
 
               {/* Expense Tracker*/}
               <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  {/* <Orders /> */}
+              <Paper
+                  sx={{
+                    p: 4 ,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240,
+                    backgroundColor: 'white',
+                    border: '1px solid black',
+                    boxShadow: '4px 4px 1px rgba(0, 0, 0, 0.9)',
+                  }}
+                >
+                  <Typography fontWeight={700} fontFamily='ITC Benguiat Std' letterSpacing={1} variant='h5'>
+                    Expense Tracker
+                  </Typography>
+                 
+
+                <List>
+              
+                <ListItem
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary="Single-line item"
+                    secondary={ 'Secondary text'}
+                  />
+                </ListItem>,
+            
+            </List>
+                  
                 </Paper>
               </Grid>
             </Grid>

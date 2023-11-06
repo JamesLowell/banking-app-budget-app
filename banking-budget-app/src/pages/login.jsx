@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -36,7 +37,7 @@ const Login = () => {
     password: ""
   });
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
   const getdata = (e) => {
     const { value, name } = e.target;
@@ -62,8 +63,8 @@ const defaultTheme = createTheme({
     e.preventDefault();
     const { email, password } = inputVal;
 
-    const getuserArr = localStorage.getItem("user-info");
-    console.log({getuserArr})
+    const userData = JSON.parse(localStorage.getItem("users-list") || "[]")
+    
     
 
     if (email === "") {
@@ -75,17 +76,22 @@ const defaultTheme = createTheme({
     } else if (password.length < 5) {
       alert("Password length should be more than 5 characters.");
     } else {
-        if(getuserArr && getuserArr.length){
-          const userdata = JSON.parse(getuserArr);
-          const userlogin = userdata.filter((elem,k) => {
+      // Get all array of users in localstorage
+      // check if email and password is existing
+
+      // if existingin,  setuser-info
+      console.log(userData)
+        if(userData && userData.length){
+         
+          const userlogin = userData.find((elem,k) => {
             return elem.email === email && elem.password === password 
           });
-
-          if (userlogin.length == 0){
+          console.log(userlogin)
+          if (!userlogin){
             alert("Invalid login.")
           } else {
             alert("Login success.")
-            localStorage.setItem("user_login", JSON.stringify())
+            localStorage.setItem("user-info", JSON.stringify(userlogin))
             history("/dashboard")
           }
           
