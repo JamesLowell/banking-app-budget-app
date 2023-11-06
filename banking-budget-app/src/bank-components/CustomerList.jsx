@@ -5,9 +5,10 @@ import { fetchUser } from './utils'
 import { useDebounce } from './hooks'
 import {Link} from 'react-router-dom'
 
+
 const CustomerList = () => {
   localStorage.setItem('users', JSON.stringify(user));
-  
+
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search)
@@ -24,7 +25,6 @@ const CustomerList = () => {
     }
     loadUsers()
   }, [debouncedSearch])
-  
   return (
     <section className='bg-[#F3F2E8] w-full p-4'>
       <div className='bg-[#F7DAA8] w-full font-abril text-4xl text-center py-4'>All Customers</div>
@@ -41,13 +41,15 @@ const CustomerList = () => {
           {loading && <div>Loading...</div>}
           {!loading && users.length === 0 && <div>Not Found!</div>}
           {!loading && users.map(user => {
-            return <div key={user.contactNumber} className='flex font-mulish text-lg p-2'>
+            return (<div key={user.contactNumber} className='flex font-mulish text-lg p-2'>
               <h2 className='w-1/5'>{user.firstName}</h2>
               <h2 className='w-1/5'>{user.lastName}</h2>
               <h2 className='w-1/5'>{user.email}</h2>
               <h2 className='w-1/5'>{user.address}</h2>
-              <Link to={`customer/${user.id}`}><button className='w-[200px] bg-[#FCB847] rounded-full'>View Account</button></Link>
-            </div>
+              <Link to={`/customer/${user.id}`}>
+  <button className='w-[200px] bg-[#FCB847] rounded-full'>View Account</button>
+</Link>
+            </div>)
           })}
         </div>
       </div>

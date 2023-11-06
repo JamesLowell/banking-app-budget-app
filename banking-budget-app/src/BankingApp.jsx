@@ -1,13 +1,13 @@
-import React from 'react'
-import NavbarLeft from './bank-components/NavbarLeft'
+import { Outlet } from "react-router-dom";
+import NavBarSide from "./NavBarSide";
 
-const BankingApp = () => {
-  
-  return (
-    <>
-      <NavbarLeft />
-    </>
-  )
-} 
-
-export default BankingApp
+export default function BankingApp() {
+    
+    return (
+        <main style={{display: 'flex'}}>
+        <NavBarSide />
+        <Outlet />
+        </main>
+    )
+    
+}

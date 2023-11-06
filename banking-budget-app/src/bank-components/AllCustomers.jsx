@@ -18,5 +18,3 @@ const AllCustomers = ({users}) => {
 }
 
 export default AllCustomers
-
-
