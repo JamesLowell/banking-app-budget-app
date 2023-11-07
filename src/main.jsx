@@ -5,11 +5,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
 import BankingApp from './BankingApp.jsx';
 import Settings from './pages/setting.jsx';
-import NewUser from './pages/newuser.jsx';
+import CreateNewUser from './bank-components/CreateNewUser.jsx'
 import Home from './pages/home.jsx';
 import NotFound from './pages/NotFound.jsx';
-import UserInfo from './pages/UserInfo.jsx';
-import CustomerList from './bank-components/CustomerList';
+import UserInfo, { userLoader } from './pages/UserInfo.jsx';
+import LandingPage from './LandingPage.jsx';
+import EditUser, { editUserAction } from './bank-components/EditUser.jsx';
+import CustomerList, { usersLoader } from './bank-components/CustomerList';
 import UserDetails from './bank-components/UserDetails';
 import { getContact } from './GetContact.jsx';
 import Login from './pages/login';
@@ -21,6 +23,10 @@ import '../src/App.css';
 import './index.css';
 
 const router = createBrowserRouter([
+  {
+    path: '',
+    element: <LandingPage />
+  },
   {
     path:"/budget/login",
     element: <Login />,
@@ -43,7 +49,7 @@ const router = createBrowserRouter([
     element: <CustomerList />,
   },
   {
-    path: '',
+    path: 'banking-app',
     element: <BankingApp />,
     children: [
       {
@@ -51,26 +57,33 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'banking/dashboard',
+        path: 'customer-list',
+        element: <CustomerList />,
+        //loader: userLoader 
+      },
+      {
+        path: 'dashboard',
         element: <BankingDashBoard />,
       },
       {
         path: 'new-user',
-        element: <NewUser />,
+        element: <CreateNewUser />,
       },
       {
         path: 'settings',
         element: <Settings />,
       },
       {
-        path: 'customer/:customerId',
+        path: 'user/:userId',
         element: <UserInfo />,
-        loader: async ({ params }) => {
-          const contactId = params.customerId;
-          const contact = await getContact(contactId);
-          return contact;
-        },
+        loader: userLoader,
       },
+      {
+        path: 'user/:userId/edit',
+        element: <EditUser />,
+        loader: userLoader,
+        action: editUserAction
+      }
     ],
   },
   {
