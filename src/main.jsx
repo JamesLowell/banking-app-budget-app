@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
-import BankingApp from './bankingApp.jsx';
+import BankingApp from './BankingApp.jsx';
 import Settings from './pages/setting.jsx';
 import NewUser from './pages/newuser.jsx';
 import Home from './pages/home.jsx';
