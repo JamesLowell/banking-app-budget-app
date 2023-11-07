@@ -11,7 +11,7 @@ import { FiLogOut } from "react-icons/fi";
 const NavBarSide = () => {
   return (
     <>
-    <div className='sidebar' >
+    <div className='sidebar fixed' >
       <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='/user-info' className='item firstBreak'>
         <span><AiOutlineHome/></span>
         <div className='text'>App</div>

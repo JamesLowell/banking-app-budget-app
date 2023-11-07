@@ -35,7 +35,7 @@ const CustomerList = () => {
     loadUsers()
   }, [debouncedSearch])
   return (
-    <section className='bg-[#F3F2E8] w-full p-4 fixed ml-[7rem]'>
+    <section className='bg-[#F3F2E8] w-full pl-[7rem] py-4 pr-4 fixed '>
       <div className='bg-[#F7DAA8] w-full font-abril text-4xl text-center py-4'>All Customers</div>
       <div className='p-4'>
         <SearchBar onChange={setSearch} />
