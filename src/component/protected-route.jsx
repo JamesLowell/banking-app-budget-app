@@ -7,7 +7,7 @@ export default function ProtectedRoute({ children }) {
 
   if (!isAuthenticated) {
     alert('Please login to access the page');
-    return <Navigate to="/login" replace={true} />;
+    return <Navigate to="/budget/login" replace={true} />;
   }
 
   return <>{children}</>;

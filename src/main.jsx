@@ -2,6 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import DashBoard from './pages/dashboard.jsx';
+import BudgetApp from './BudgetApp.jsx';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
 import BankingApp from './BankingApp.jsx';
 import Settings from './pages/setting.jsx';
@@ -23,27 +25,29 @@ import '../src/App.css';
 import './index.css';
 
 const router = createBrowserRouter([
-  {
-    path: '',
-    element: <LandingPage />
-  },
-  {
-    path:"/budget/login",
-    element: <Login />,
-    index:true
-  },
-  {
-    path:"/register",
-    element: <Register />,
-  },
-  {
-    path:"/dashboard",
-    element: <ProtectedRoute> <Dashboard /> </ProtectedRoute>,
-  },
-  {
-    path:"/expense",
-    element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
-  },
+{
+  path: '/budget',
+  element: <BudgetApp />,
+  children: [
+    {
+      path:"login",
+      element: <Login />,
+    },
+    {
+      path:"register",
+      element: <Register />,
+    },
+    {
+      path:"dashboard",
+      element: <ProtectedRoute> <Dashboard /> </ProtectedRoute>,
+    },
+    {
+      path:"expense",
+      element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
+    },
+  ]
+},
+
   {
     path: '/customer-list',
     element: <CustomerList />,
