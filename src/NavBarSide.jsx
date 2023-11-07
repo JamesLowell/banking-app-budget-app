@@ -19,7 +19,7 @@ const NavBarSide = () => {
 
       
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='banking/dashboard' className='item'>
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='dashboard' className='item'>
         <span><LuLayoutDashboard/></span>
         <div className='text'>Dashboard</div>
       </NavLink>
@@ -29,12 +29,12 @@ const NavBarSide = () => {
         <div className='text'>Search</div>
       </NavLink>
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to ='/new-user' className='item'>
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to ='new-user' className='item'>
        <span><AiOutlineUserAdd/></span>
         <div className='text'>New User</div>
       </NavLink>
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='/settings' className='item secondBreak' >
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='settings' className='item secondBreak' >
         <span><FiSettings/></span>
         <div className='text'>Settings</div>
       </NavLink>

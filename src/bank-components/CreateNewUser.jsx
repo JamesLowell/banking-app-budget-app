@@ -92,7 +92,7 @@
 
     return (
         <>
-            <form className='flex items-center flex-col p-4' onSubmit={handleFormSubmit}>
+            <form className='flex items-center flex-col p-4 fixed ml-[7rem]' onSubmit={handleFormSubmit}>
                 <div className='border-[1px] rounded-lg py-16 px-8 relative flex flex-wrap gap-4 mb-8'>
                     <span className='absolute top-[-20px] left-[40%] font-abril bg-white text-4xl'>Personal Information</span>
                     <label htmlFor='last-name' className='w-[30%] font-abril text-2xl'> Last Name

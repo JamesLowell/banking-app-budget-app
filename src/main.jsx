@@ -5,12 +5,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
 import BankingApp from './BankingApp.jsx';
 import Settings from './pages/setting.jsx';
-import NewUser from './pages/newuser.jsx';
+import CreateNewUser from './bank-components/CreateNewUser.jsx'
 import Home from './pages/home.jsx';
 import NotFound from './pages/NotFound.jsx';
-import UserInfo from './pages/UserInfo.jsx';
+import UserInfo, { userLoader } from './pages/UserInfo.jsx';
 import LandingPage from './LandingPage.jsx';
-import CustomerList, { userLoader } from './bank-components/CustomerList';
+import EditUser, { editUserAction } from './bank-components/EditUser.jsx';
+import CustomerList, { usersLoader } from './bank-components/CustomerList';
 import UserDetails from './bank-components/UserDetails';
 import { getContact } from './GetContact.jsx';
 import Login from './pages/login';
@@ -58,29 +59,31 @@ const router = createBrowserRouter([
       {
         path: 'customer-list',
         element: <CustomerList />,
-        loader: userLoader 
+        //loader: userLoader 
       },
       {
-        path: 'banking/dashboard',
+        path: 'dashboard',
         element: <BankingDashBoard />,
       },
       {
         path: 'new-user',
-        element: <NewUser />,
+        element: <CreateNewUser />,
       },
       {
         path: 'settings',
         element: <Settings />,
       },
       {
-        path: 'customer/:customerId',
+        path: 'user/:userId',
         element: <UserInfo />,
-        loader: async ({ params }) => {
-          const contactId = params.customerId;
-          const contact = await getContact(contactId);
-          return contact;
-        },
+        loader: userLoader,
       },
+      {
+        path: 'user/:userId/edit',
+        element: <EditUser />,
+        loader: userLoader,
+        action: editUserAction
+      }
     ],
   },
   {
