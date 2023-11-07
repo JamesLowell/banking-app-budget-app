@@ -214,7 +214,7 @@ export default function Dashboard() {
             <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} />
             <MoneyActionIcon text="Create Goals" icon={<AttachMoneyIcon fontSize="large" />} />
             <MoneyActionIcon text="View Budgets and Goals" icon={<AttachMoneyIcon fontSize="large" />} />
-            <a href='/expense'><MoneyActionIcon text="Expense Tracker" icon={<AttachMoneyIcon fontSize="large" />} /></a>
+            <a href='/budget/expense'><MoneyActionIcon text="Expense Tracker" icon={<AttachMoneyIcon fontSize="large" />} /></a>
           </Grid>
 
               {/* Expense Tracker*/}
