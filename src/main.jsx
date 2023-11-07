@@ -3,13 +3,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
-import BankingApp from './bankingApp.jsx';
+import BankingApp from './BankingApp.jsx';
 import Settings from './pages/setting.jsx';
 import NewUser from './pages/newuser.jsx';
 import Home from './pages/home.jsx';
 import NotFound from './pages/NotFound.jsx';
 import UserInfo from './pages/UserInfo.jsx';
-import CustomerList from './bank-components/CustomerList';
+import LandingPage from './LandingPage.jsx';
+import CustomerList, { userLoader } from './bank-components/CustomerList';
 import UserDetails from './bank-components/UserDetails';
 import { getContact } from './GetContact.jsx';
 import Login from './pages/login';
@@ -21,6 +22,10 @@ import '../src/App.css';
 import './index.css';
 
 const router = createBrowserRouter([
+  {
+    path: '',
+    element: <LandingPage />
+  },
   {
     path:"/budget/login",
     element: <Login />,
@@ -43,12 +48,17 @@ const router = createBrowserRouter([
     element: <CustomerList />,
   },
   {
-    path: '',
+    path: 'banking-app',
     element: <BankingApp />,
     children: [
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'customer-list',
+        element: <CustomerList />,
+        loader: userLoader 
       },
       {
         path: 'banking/dashboard',
