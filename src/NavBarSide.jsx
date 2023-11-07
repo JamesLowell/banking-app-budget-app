@@ -11,7 +11,7 @@ import { FiLogOut } from "react-icons/fi";
 const NavBarSide = () => {
   return (
     <>
-    <div className='sidebar' >
+    <div className='sidebar fixed' >
       <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='/user-info' className='item firstBreak'>
         <span><AiOutlineHome/></span>
         <div className='text'>App</div>
@@ -24,17 +24,17 @@ const NavBarSide = () => {
         <div className='text'>Dashboard</div>
       </NavLink>
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='/' className='item'>
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='customer-list' className='item'>
         <span><AiOutlineSearch/></span>
         <div className='text'>Search</div>
       </NavLink>
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to ='/new-user' className='item'>
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to ='new-user' className='item'>
        <span><AiOutlineUserAdd/></span>
         <div className='text'>New User</div>
       </NavLink>
 
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='/settings' className='item secondBreak' >
+      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='settings' className='item secondBreak' >
         <span><FiSettings/></span>
         <div className='text'>Settings</div>
       </NavLink>

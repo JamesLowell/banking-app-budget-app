@@ -8,7 +8,6 @@ const NavbarTop = () => {
     const [hidden, setHidden] = useState(false)
     useMotionValueEvent(scrollY, "change", (latest) => {
         const previous = scrollY.getPrevious()
-        console.log(previous)
         if (latest > previous && latest > 150) {
             setHidden(true)
         } else {
@@ -37,8 +36,8 @@ const NavbarTop = () => {
                 <li>Contact Us</li>
             </ul>
             <div>
-                <button className='rounded-md border-2 border-black p-4 shadow-md shadow-slate-950 hover:shadow-lg hover:shadow-slate-950 font-mulish font-bold'>
-                    Register Now !
+                <button className='rounded-md border-2 border-black py-4 px-8 shadow-md shadow-slate-950 hover:shadow-lg hover:shadow-slate-950 font-mulish font-bold'>
+                    Log in!
                 </button>
             </div>
         </motion.nav>

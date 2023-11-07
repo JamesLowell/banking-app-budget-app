@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link, Form } from 'react-router-dom'
 import "./UserInfo.css";
 import { NavLink, useLoaderData } from "react-router-dom";
 import { BiMoneyWithdraw } from "react-icons/bi";
@@ -7,14 +8,22 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BiNote } from "react-icons/bi";
 import Clock from "../clock";
 import RandomQuotes from "../randomQuotes";
-import { useLocation } from "react-router-dom";
-import { useParams } from "react-router-dom";
+
+
+export async function userLoader({ params }) {
+    const usersData = await JSON.parse(localStorage.getItem("users")) || [];
+    const userId = params.userId;
+    const user = usersData.find((users) => users.id === Number(userId));
+    return user;
+}
 
 const UserInfo = () => {
-  const { customerId } = useParams();
+
   const user = useLoaderData();
 
-  console.log(user);
+  useEffect(() => {
+    console.log(user)
+  }, [])
 
   return (
     <>
@@ -29,7 +38,7 @@ const UserInfo = () => {
             <Clock />
           </span>
         </div>
-        <div className="userInfo">
+        <div className="userInfo relative">
           <div style={{ display: "flex", gap: "1rem" }}>
             <h1 className="lastName">{user.lastName},</h1>
             <h1 className="firstName">{user.firstName}</h1>
@@ -47,6 +56,9 @@ const UserInfo = () => {
             <span className="contactNumber">{user.contactNumber}</span>
             <span className="email">{user.email}</span>
             <span className="amount">Balance: {user.amount}</span>
+            <Form action='edit' className="absolute bottom-4 right-32">
+              <Link to={`../user/${user.id}/edit`}>Edit User Information</Link>
+            </Form>
           </div>
         </div>
         <div className="transactionContainer">
