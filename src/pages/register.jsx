@@ -42,7 +42,8 @@ const Register = () => {
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
+    password: "",
+    acctBalance: 0
   });
 
   const [data, setData] = useState([]);
@@ -58,7 +59,7 @@ const Register = () => {
   const addData = (e) => {
     e.preventDefault();
   
-    const { firstName, lastName, email, password } = inputVal;
+    const { firstName, lastName, email, password, acctBalance } = inputVal;
   
     if (firstName === "") {
       alert("Name field is required.");
@@ -84,6 +85,7 @@ const Register = () => {
         lastName,
         email,
         password,
+        acctBalance
       };
   
       // Append the new entry to the existing data
