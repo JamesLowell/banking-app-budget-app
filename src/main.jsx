@@ -23,6 +23,8 @@ import ExpenseTracker from './pages/expense-tracker';
 import ProtectedRoute  from './component/protected-route';
 import '../src/App.css';
 import './index.css';
+import BankingLogin from './pages/BankingLogin.jsx';
+import BankingRegister from './pages/BankingRegister';
 
 const router = createBrowserRouter([
 {
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
   {
     path: '/customer-list',
     element: <CustomerList />,
+  },
+  {
+    path:"/bankinglogin",
+    element: <BankingLogin />,
+  },
+  {
+    path:"/bankingregister",
+    element: <BankingRegister />,
   },
   {
     path: 'banking-app',

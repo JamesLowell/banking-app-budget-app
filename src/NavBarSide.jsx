@@ -12,9 +12,9 @@ const NavBarSide = () => {
   return (
     <>
     <div className='sidebar fixed' >
-      <NavLink style={({isActive}) => {return isActive ? {backgroundColor: '#FFAE57'} : {}}} to='/user-info' className='item firstBreak'>
+      <NavLink to='' className='item firstBreak'>
         <span><AiOutlineHome/></span>
-        <div className='text'>App</div>
+        <div className='text'>Home</div>
       </NavLink>
 
       
