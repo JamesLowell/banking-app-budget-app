@@ -38,6 +38,10 @@ const defaultTheme = createTheme({
 });
 
 const Register = () => {
+
+   //removes the loggedInUser key from localStorage when accesing the register page
+   localStorage.removeItem("loggedInUser");
+
   const [inputVal, setInputVal] = useState({
     firstName: "",
     lastName: "",
@@ -171,7 +175,7 @@ const Register = () => {
             >
               Register
             </Button>
-            <a href="/" variant="body2">             
+            <a href="/budget/login">             
                 {"Already have an account? Sign In"}         
             </a>
           </Box>

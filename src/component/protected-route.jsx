@@ -3,7 +3,7 @@ import getLocalStorage from '../utils/getlocalstorage';
 import { Navigate } from 'react-router-dom';
 
 export default function ProtectedRoute({ children }) {
-  const isAuthenticated = getLocalStorage('users-list'); 
+  const isAuthenticated = getLocalStorage('user-info'); 
 
   if (!isAuthenticated) {
     alert('Please login to access the page');
