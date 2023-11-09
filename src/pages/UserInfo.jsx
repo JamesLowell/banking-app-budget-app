@@ -21,10 +21,6 @@ const UserInfo = () => {
 
   const user = useLoaderData();
 
-  useEffect(() => {
-    console.log(user)
-  }, [])
-
   return (
     <>
       <div className="userInfoContainer">
@@ -52,7 +48,7 @@ const UserInfo = () => {
               color: "black",
             }}
           >
-            <span className="address">{user.address}</span>
+            <span className="address">{user.address.houseNumber} {user.address.city} {user.address.province} {user.address.country}</span>
             <span className="contactNumber">{user.contactNumber}</span>
             <span className="email">{user.email}</span>
             <span className="amount">Balance: {user.amount}</span>

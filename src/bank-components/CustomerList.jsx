@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import SearchBar from './SearchBar'
+import { userList } from './users.jsx'
 import { fetchUser } from './utils'
 import { useDebounce } from './hooks'
 import { Link, useLoaderData } from 'react-router-dom'
 
 export async function usersLoader() {
-  const storedUserData = localStorage.getItem('users'); // Retrieve user data from localStorage
+
+  const storedUserData = localStorage.getItem('users')
 
   if (storedUserData) {
-    const user = JSON.parse(storedUserData); // Parse the JSON string back to an object
-    return user;
+    const user = JSON.parse(storedUserData);
+    return user 
   } else {
-    // Handle the case where user data doesn't exist in localStorage
+
     return null;
   }
 }
@@ -22,6 +24,12 @@ const CustomerList = () => {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search)
   const [users, setUsers] = useState([])
+
+  const user = useLoaderData()
+
+  useEffect (() => {
+    setUsers(user)
+  }, [])
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -54,7 +62,7 @@ const CustomerList = () => {
               <h2 className='w-1/5'>{user.firstName}</h2>
               <h2 className='w-1/5'>{user.lastName}</h2>
               <h2 className='w-1/5'>{user.email}</h2>
-              <h2 className='w-1/5'>{user.address}</h2>
+              <h2 className='w-1/5'>{user.address.houseNumber} {user.address.city} {user.address.province} {user.address.country}</h2>
               <Link to={`../user/${user.id}`}>
     <button className='w-[200px] bg-[#FCB847] rounded-full'>View Account</button>
 </Link>

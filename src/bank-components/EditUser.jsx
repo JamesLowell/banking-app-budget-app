@@ -3,9 +3,9 @@ import { Form, useLoaderData, redirect } from "react-router-dom"
 
 export async function editUserAction({request, params}) {
     const formData = await request.formData()
-    const updates = Object.fromEntriess(formData)
+    const updates = Object.fromEntries(formData)
     await updateContact(params.customerId, updates)
-     return redirect(`../customer/${params.customerId}`)
+    return redirect(`../customer/${params.customerId}`)
 }
 
 const EditUser = () => {
@@ -56,7 +56,7 @@ const EditUser = () => {
 
 return (
     <>
-        <Form className='flex items-center flex-col p-4' method='post'>
+        <Form className='flex items-center flex-col pl-[7rem] py-4 pr-8 absolute overflow-x-auto w-full' method='post'>
             <div className='border-[1px] rounded-lg py-16 px-8 relative flex flex-wrap gap-4 mb-8'>
                 <span className='absolute top-[-20px] left-[40%] font-abril bg-white text-4xl'>Personal Information</span>
                 <label htmlFor='last-name' className='w-[30%] font-abril text-2xl'> Last Name
@@ -83,7 +83,7 @@ return (
                     <input type='text' id='province' name='province' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.address.province} required/>
                 </label>
                 <label htmlFor='country' className='w-[30%] font-abril text-2xl'> Country
-                    <input type='text' id='country' name='country' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValuev={user.address.country} required/>
+                    <input type='text' id='country' name='country' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.address.country} required/>
                 </label>
             </div>
             <div className='border-[1px] rounded-lg py-16 px-8 relative flex flex-wrap gap-4 mb-8'>

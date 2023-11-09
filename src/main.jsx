@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
 import BankingApp from './BankingApp.jsx';
 import Settings from './pages/setting.jsx';
-import CreateNewUser from './bank-components/CreateNewUser.jsx'
+import CreateNewUser, { createNewUserAction } from './bank-components/CreateNewUser.jsx'
 import Home from './pages/home.jsx';
 import NotFound from './pages/NotFound.jsx';
 import UserInfo, { userLoader } from './pages/UserInfo.jsx';
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
       {
         path: 'customer-list',
         element: <CustomerList />,
-        //loader: userLoader 
+        loader: usersLoader 
       },
       {
         path: 'dashboard',
@@ -68,6 +68,7 @@ const router = createBrowserRouter([
       {
         path: 'new-user',
         element: <CreateNewUser />,
+        action: createNewUserAction
       },
       {
         path: 'settings',

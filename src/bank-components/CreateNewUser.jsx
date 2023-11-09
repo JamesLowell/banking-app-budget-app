@@ -1,98 +1,72 @@
-    import React, { useState, useEffect } from 'react'
-    // import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Form, redirect } from 'react-router-dom'
 
-    const CreateNewUser = () => {
-        
-        const users = JSON.parse(localStorage.getItem('users'))
-        
-        const [user, setUser] = useState({
-            lastName: '',
-            firstName: '',
-            middleName: '',
-            email: '',
-            password:'',
-            reTypePassword:'',
-            address: {
-                houseNumber: '',
-                city: '',
-                province: '',
-                country: ''
-            },
-        })
-        useEffect(() => {
-            if (user.password) {
-                const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-                const isPasswordStrong = !passwordRegex.test(user.password)
-                setError({ ...error, passwordError: isPasswordStrong })
-            }
-            // /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-        }, [user.password])
+export async function createNewUserAction({request}) {
+    const formData = await request.formData()
+    const user = Object.fromEntries(formData)
+    const users = JSON.parse(localStorage.getItem('users'))
+    
+    const id = Date.now()
+    const lastName =  formData.get('last-name')
+    const firstName =  formData.get('first-name')
+    const middleName = formData.get('middle-name')
+    const houseNumber = formData.get('house-number')
+    const newUser = {
+        lastName: lastName,
+        firstName: firstName,
+        middleName: middleName,
+        id: id,
+        email: user.email,
+        password: user.password,
+        address: {
+            houseNumber: houseNumber,
+            city: user.city,
+            province: user.province,
+            country: user.country
+        },
+        transactionHistory: []
+    }
+    const updatedUsers = [...users, newUser]
 
-        const [error, setError] = useState({
-            emailError: false,
-            passwordError: false,
-            reTypePasswordError: false,
-        })
+    localStorage.setItem('users', JSON.stringify(updatedUsers))
+    
+    return redirect(`../user/${id}`)
+}
 
 
-        const handleFormSubmit = (e) => {
-            e.preventDefault()
-            // if theres no error create an id then ...user and push it
-            const isEmailUsed = users.some(existingUser => existingUser.email.toLowerCase() === user.email.toLowerCase())
-            if(isEmailUsed) {
-                setError({...error, emailError: isEmailUsed})
-            }
-            if(user.password !== user.reTypePassword) {
-                setError({...error, reTypePasswordError: true})
-            }
+const CreateNewUser = () => {
 
-            if(!error.emailError && !error.passwordError && !error.reTypePasswordError) {
-                const id = Date.now()
-                const newUser = {
-                    lastName: user.lastName,
-                    firstName: user.firstName,
-                    middleName: user.middleName,
-                    id: id,
-                    email: user.email,
-                    password: user.password,
-                    address: {
-                        houseNumber: user.address.houseNumber,
-                        city: user.address.city,
-                        province: user.address.province,
-                        country: user.address.country
-                    }
-                }
-
-                const updatedUsers = [...users, newUser]
-
-                localStorage.setItem('users', JSON.stringify(updatedUsers))
-
-                // const history = useHistory()
-                // history.push('/success-page') //redirect to the user info
-                setUser({...user,
-                    lastName: '',
-                    firstName: '',
-                    middleName: '',
-                    email: '',
-                    password:'',
-                    address: {
-                        houseNumber: '',
-                        city: '',
-                        province: '',
-                        country: ''
-                    }
-                })
-                setError({...error,
-                    emailError: false,
-                    passwordError: false,
-                    reTypePasswordError: false,
-                })
-            }
+    const [user, setUser] = useState({
+        lastName: '',
+        firstName: '',
+        middleName: '',
+        email: '',
+        password:'',
+        reTypePassword:'',
+        address: {
+            houseNumber: '',
+            city: '',
+            province: '',
+            country: ''
+        },
+    })
+    useEffect(() => {
+        if (user.password) {
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+            const isPasswordStrong = !passwordRegex.test(user.password)
+            setError({ ...error, passwordError: isPasswordStrong })
         }
+    }, [user.password])
+
+    const [error, setError] = useState({
+        emailError: false,
+        passwordError: false,
+        reTypePasswordError: false,
+    })
 
     return (
         <>
-            <form className='flex items-center flex-col pl-[7rem] py-4 pr-8 absolute overflow-x-auto w-full' onSubmit={handleFormSubmit}>
+            <Form className='flex items-center flex-col pl-[7rem] py-4 pr-8 absolute overflow-x-auto w-full' method='post'>
                 <div className='font-abril text-4xl p-8'>Create New User</div>
                 <div className='border-[1px] rounded-lg py-16 px-8 relative flex flex-wrap gap-4 mb-8 w-full'>
                     <span className='absolute top-[-20px] left-0 font-abril text-4xl w-full text-center'>Personal Information</span>
@@ -193,7 +167,7 @@
                 <div>
                     <button type='submit' className='bg-[#FCB847] p-4 rounded-lg font-abril text-2xl'>Create New User</button>
                 </div>
-            </form>
+            </Form>
         </>
     )
     }
