@@ -44,6 +44,14 @@ const router = createBrowserRouter([
     {
       path:"expense",
       element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
+      // action: async function ({request}){
+      //   let data = await request.formData()
+
+      //   const name = data.get("username")
+      //   const email = data.get("email")
+
+
+      // }
     },
   ]
 },
