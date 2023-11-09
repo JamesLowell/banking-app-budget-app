@@ -19,7 +19,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="/budget/login">
         Budget App
       </Link>{' '}
       {new Date().getFullYear()}
@@ -31,6 +31,9 @@ function Copyright() {
 const Login = () => {
 
   const history = useNavigate();
+
+  //removes the user-info key from localStorage when accesing the login page
+  localStorage.removeItem("user-info");
 
   const [inputVal, setInputVal] = useState({
     email: "",
@@ -78,13 +81,13 @@ const defaultTheme = createTheme({
           const userlogin = userData.find((elem,k) => {
             return elem.email === email && elem.password === password 
           });
-          console.log(userlogin)
+
           if (!userlogin){
             alert("Invalid login.")
           } else {
             alert("Login success.")
             localStorage.setItem("user-info", JSON.stringify(userlogin))
-            history("/dashboard")
+            history("/budget/dashboard")
           }
         }
         else {
