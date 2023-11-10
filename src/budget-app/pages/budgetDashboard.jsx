@@ -1,4 +1,3 @@
-// import * as React from 'react';
 import React, {useEffect, useState} from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, DialogTitle, TextField } from '@mui/material';
@@ -38,6 +37,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { Italic } from 'lucide-react';
 
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -58,8 +58,6 @@ const StyledButton = styled(Button)({
     backgroundColor: '#388E3C', // Darker green on hover
   },
 });
-
-const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -96,7 +94,6 @@ const defaultTheme = createTheme({
 
 function MoneyActionIcon(props) {
   const { text, icon } = props;
-
   return (
     <Paper
       sx={{
@@ -156,7 +153,7 @@ function EditExpenseModal({ expense, onUpdate, onCancel }) {
                 <MenuItem value="Others">Others</MenuItem>
               </Select>
 
-        
+
         <InputLabel id="expenseDate">Date</InputLabel>
 
         <TextField
@@ -174,7 +171,7 @@ function EditExpenseModal({ expense, onUpdate, onCancel }) {
           value={editedFields.expenseAmount}
           onChange={handleChange}
         />
-        
+
         <InputLabel id="expenseDesc">Description</InputLabel>
 
         <TextField
@@ -185,10 +182,10 @@ function EditExpenseModal({ expense, onUpdate, onCancel }) {
           rows={4}
           inputProps={{ maxLength: 80}}
           sx={{ width: '100%' }}
-          
+
         />
       </DialogContent>
-      
+
       <DialogActions>
       <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={() => onUpdate(editedFields)}>Save</Button>
@@ -241,7 +238,6 @@ export default function Dashboard() {
   const handleOpenModal = () => {
     setOpenModal(true);
   };
-
   const handleCloseModal = () => {
     setOpenModal(false);
   };
@@ -274,37 +270,37 @@ const handleCancelPayNow = () => {
   setConfirmationOpen(false); // Close the confirmation dialog
 };
 
-  const handleAddBalance = () => {
-    // Check if user-info exists in local storage and has 'acctBalance'
-    if (storedUserInfo && typeof storedUserInfo.acctBalance === 'number') {
-      const newBalance = storedUserInfo.acctBalance + parseFloat(balanceToAdd);
-      storedUserInfo.acctBalance = newBalance;
 
-    // Update the 'user-info' key in local storage
-    localStorage.setItem("user-info", JSON.stringify(storedUserInfo));
+const handleAddBalance = () => {
+  const storedUserInfo = JSON.parse(localStorage.getItem('user-info'));
+  const userBalanceBanking = JSON.parse(localStorage.getItem('users'));
 
-    // Retrieve the "users-list" from local storage
-    const userList = JSON.parse(localStorage.getItem('users-list'));
+  if (storedUserInfo && userBalanceBanking) {
+    const userInfoEmail = storedUserInfo.email;
 
-    if (userList && Array.isArray(userList)) {
-      // Map the "users-list" array to update the balance for the matching email
-      const updatedUserList = userList.map(user => {
-        if (user.email === storedUserInfo.email) {
-          return { ...user, acctBalance: newBalance };
-        }
-        
-        return user;
-      });
+    const userIndex = userBalanceBanking.findIndex(user => user.email === userInfoEmail);
 
-      // Update the "users-list" with the modified array
-      localStorage.setItem("users-list", JSON.stringify(updatedUserList));
+    if (userIndex !== -1) {
+      const user = userBalanceBanking[userIndex];
+      const newBalance = user.amount - parseFloat(balanceToAdd);
+      // const newDashboardBalance = user.amount - parseFloat(balanceToAdd);
+      const newDashboardBalance = storedUserInfo.acctBalance + parseFloat(balanceToAdd);
+
+      // Update the 'user-info' key in local storage
+      storedUserInfo.acctBalance = newDashboardBalance;
+      localStorage.setItem('user-info', JSON.stringify(storedUserInfo));
+
+      // Update the 'users' key in local storage
+      userBalanceBanking[userIndex].amount = newBalance;
+      localStorage.setItem('users', JSON.stringify(userBalanceBanking));
+
+      // Update the state with the new balance
+      setAcctBalance(newBalance);
+      handleCloseModal();
     }
-    // Update the state with the new balance
-    setAcctBalance(newBalance)
   }
-  handleCloseModal();
-}
-  
+};
+
   useEffect(() => {
     const storedBalance = localStorage.getItem("acctBalance");
     const userInfo = JSON.parse(localStorage.getItem("user-info"));
@@ -335,16 +331,16 @@ const handleCancelPayNow = () => {
 
   const handleDeleteExpense = (index) => {
     const updatedExpenseList = [...expenseList];
-  
+
     // Remove the expense at the specified index from the copied list
     updatedExpenseList.splice(index, 1);
-  
+
     // Update the state with the modified list (removed item)
     setExpenseList(updatedExpenseList);
-  
+
     // Retrieve the email of the logged-in user
     const loggedIn = storedUserInfo.email;
-  
+
     // Update the local storage with the modified expense list
     localStorage.setItem(loggedIn, JSON.stringify(updatedExpenseList));
   };
@@ -359,7 +355,7 @@ const handleCancelPayNow = () => {
               pr: '24px', 
             }}
           >
-          
+
             <Typography
               fontFamily='ITC Benguiat Std'
               fontWeight={700}
@@ -370,14 +366,14 @@ const handleCancelPayNow = () => {
             >
               Logo
             </Typography>
-            <a href="/budget/login">
+            <a href="/landing-page">
             <Button color="inherit">
               <LogoutIcon /> Sign Out
             </Button>
             </a>
           </Toolbar>
         </AppBar>
-        
+
         <Box
           component="main"
           sx={{
@@ -428,7 +424,7 @@ const handleCancelPayNow = () => {
                       <AddCircleIcon />
                     </IconButton>
 
-                   
+
 
                     <Dialog open={openModal} onClose={handleCloseModal}>
                       <DialogTitle>Cash In</DialogTitle>
@@ -441,7 +437,7 @@ const handleCancelPayNow = () => {
                             value={balanceToAdd}
                             onChange={(e) => {
                               const inputValue = e.target.value;
-                              
+
                               // Allow only positive numbers
                               if (!isNaN(inputValue) && inputValue >= 0) {
                                 setBalanceToAdd(inputValue);
@@ -458,7 +454,6 @@ const handleCancelPayNow = () => {
                       </Button>
                     </DialogActions>
                   </Dialog>
-
                   </Typography> 
                 </Paper>
               </Grid>
@@ -466,7 +461,7 @@ const handleCancelPayNow = () => {
 
           {/* Create Budget, Create Goals, View Budget & Goals, Expense Tracker ICONS */}
           <Grid item xs={12} md={4} lg={6} sx={{ marginTop:8,display: 'flex' , justifyContent:'center', alignItems: 'center', textAlign:'center' }}>
-          
+
           <a href='#' id="icon-design">
             <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%'}} />
           </a>
@@ -499,7 +494,7 @@ const handleCancelPayNow = () => {
                   <Typography fontWeight={700} fontFamily='ITC Benguiat Std' letterSpacing={1} variant='h5'>
                     Expense Tracker
                   </Typography>
-            
+
                   {expenseList.length === 0 ? (
                     <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<AttachMoneyIcon /> Add Expense" to create expense list</Typography>
                   ) : (
@@ -562,16 +557,16 @@ const handleCancelPayNow = () => {
                               }
                             }}
 
-                            
+
                             primary={expense.expenseTitle}
                             secondary={expense.expenseDesc}
-                            
-                            
+
+
                           />
 
                           <ListItemText
                             primary={"PHP " + formattedAmt }
-                            
+
                             secondary={expense.expenseDate}
                             primaryTypographyProps={{ style: { fontWeight: 'bold', color: 'red'} }}
                           />
@@ -616,7 +611,7 @@ const handleCancelPayNow = () => {
                             <DeleteIcon />
                           </IconButton>
 
-                          
+
                         </ListItem>
                       );
                     })}
