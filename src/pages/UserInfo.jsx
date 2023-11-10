@@ -111,7 +111,7 @@ const UserInfo = () => {
         className="my-modal"
         overlayClassName="my-overlay"
       >
-        <WithdrawModal isOpen={true} onRequestClose={closeModal} currentUserId={1} />
+        <WithdrawModal isOpen={modalType === 'withdraw'} onRequestClose={closeModal} />
       </ReactModal>
       <ReactModal
         isOpen={modalType === 'deposit'}
