@@ -25,6 +25,8 @@ import '../src/App.css';
 import './index.css';
 import BankingLogin from './pages/BankingLogin.jsx';
 import BankingRegister from './pages/BankingRegister';
+import BankingAppProtectedRoute from './component/BankingAppProtectedRoute.jsx';
+import BankingLogout from './pages/bankingLogout.jsx';
 
 const router = createBrowserRouter([
 {
@@ -72,7 +74,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'banking-app',
-    element: <BankingApp />,
+    element: <BankingAppProtectedRoute><BankingApp /></BankingAppProtectedRoute>,
     children: [
       {
         path: '',
@@ -105,6 +107,10 @@ const router = createBrowserRouter([
         element: <EditUser />,
         loader: userLoader,
         action: editUserAction
+      },
+      {
+      path:'logout',
+      element: <BankingLogout/>
       }
     ],
   },

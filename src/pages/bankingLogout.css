@@ -1,0 +1,21 @@
+.logout-container{
+    display: flex;
+    height: 15rem;
+    width: 20rem;
+    gap:1rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5rem;
+  border-radius: 59% 41% 70% 30% / 40% 71% 29% 60% ;
+  background: linear-gradient(145deg, #dbdad2, #ffb946);
+  box-shadow: 20px 20px 60px #cfcec6, -20px -20px 60px #ffffff;
+}
+.logoutContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 6rem;
+    height: 100vh;
+    width: 100vw;
+}
