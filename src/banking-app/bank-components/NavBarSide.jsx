@@ -1,5 +1,5 @@
 import React from "react";
-import "./NavBarSide.css";
+import "./assets/NavBarSide.css";
 import { NavLink } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { LuLayoutDashboard } from "react-icons/lu";

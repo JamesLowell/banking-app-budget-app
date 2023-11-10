@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./bankingLogout.css";
+import "./assets/bankingLogout.css";
 import { Link } from "react-router-dom";
 const BankingLogout = () => {
   const navigate = useNavigate();

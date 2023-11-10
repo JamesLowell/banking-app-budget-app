@@ -1,7 +1,8 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import "../pages/modal.css";
-import "../landing-page-components/LandingPageLogin.css";
+import "./assets/modal.css";
+import "./LandingPageLogin.css";
+
 const LandingPageLogin = ({ isOpen, onRequestClose }) => {
   return (
     <div>

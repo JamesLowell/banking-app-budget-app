@@ -1,12 +1,12 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import "./modal.css";
+import "./assets/modal.css";
 
-const DepositModal = ({ isOpen, onRequestClose }) => {
+const TransferModal = ({ isOpen, onRequestClose }) => {
   return (
     <div>
-      <h2 className="modal-title">Deposit</h2>
-      <p>Deposit Modal Content</p>
+      <h2 className="modal-title">Transfer</h2>
+      <p>transfer Modal Content</p>
       <button onClick={onRequestClose} className="close">
         <AiOutlineClose />
       </button>
@@ -14,4 +14,4 @@ const DepositModal = ({ isOpen, onRequestClose }) => {
   );
 };
 
-export default DepositModal;
+export default TransferModal;
