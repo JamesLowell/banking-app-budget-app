@@ -13,11 +13,11 @@ const BankingLogout = () => {
   return (
     <div className="logoutContainer">
       <div className="logout-container">
-        <p>Are you sure you want to log out?</p>
+        <p style={{fontWeight:'bold', fontSize:'1.2rem'}}>Are you sure you want to log out?</p>
         <div style={{display:'flex', gap:'2rem'}}>
-          <button onClick={handleLogout}>Yes</button>
+          <button onClick={handleLogout} className='rounded-md border-2 border-black py-4 px-8 shadow-md shadow-slate-950 hover:shadow-lg hover:shadow-slate-950 font-mulish font-bold'>Yes</button>
         <Link to="/banking-app">
-        <button>No</button>
+        <button className='rounded-md border-2 border-black py-4 px-8 shadow-md shadow-slate-950 hover:shadow-lg hover:shadow-slate-950 font-mulish font-bold'>No</button>
         </Link>
         </div>
       </div>
