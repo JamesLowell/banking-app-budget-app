@@ -19,7 +19,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="/budget/login">
         Budget App
       </Link>{' '}
       {new Date().getFullYear()}
@@ -32,12 +32,13 @@ const Login = () => {
 
   const history = useNavigate();
 
+  //removes the user-info key from localStorage when accesing the login page
+  localStorage.removeItem("user-info");
+
   const [inputVal, setInputVal] = useState({
     email: "",
     password: ""
   });
-
-  // const [data, setData] = useState([]);
 
   const getdata = (e) => {
     const { value, name } = e.target;
@@ -64,8 +65,6 @@ const defaultTheme = createTheme({
     const { email, password } = inputVal;
 
     const userData = JSON.parse(localStorage.getItem("users-list") || "[]")
-    
-    
 
     if (email === "") {
       alert("Email field is required.");
@@ -76,26 +75,24 @@ const defaultTheme = createTheme({
     } else if (password.length < 5) {
       alert("Password length should be more than 5 characters.");
     } else {
-      // Get all array of users in localstorage
-      // check if email and password is existing
-
-      // if existingin,  setuser-info
       console.log(userData)
         if(userData && userData.length){
          
           const userlogin = userData.find((elem,k) => {
             return elem.email === email && elem.password === password 
           });
-          console.log(userlogin)
+
           if (!userlogin){
             alert("Invalid login.")
           } else {
             alert("Login success.")
             localStorage.setItem("user-info", JSON.stringify(userlogin))
-            history("/dashboard")
+            history("/budget/dashboard")
           }
-          
         }
+        else {
+          alert ("User not found. Please register.")
+       }
     }
   }
 
@@ -152,7 +149,7 @@ const defaultTheme = createTheme({
             >
               Sign In
             </Button>
-            <Link href="/register" variant="body2">
+            <Link href="/budget/register" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>
           </Box>

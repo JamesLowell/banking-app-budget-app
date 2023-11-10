@@ -38,11 +38,16 @@ const defaultTheme = createTheme({
 });
 
 const Register = () => {
+
+   //removes the loggedInUser key from localStorage when accesing the register page
+   localStorage.removeItem("loggedInUser");
+
   const [inputVal, setInputVal] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
+    password: "",
+    acctBalance: 0
   });
 
   const [data, setData] = useState([]);
@@ -58,7 +63,7 @@ const Register = () => {
   const addData = (e) => {
     e.preventDefault();
   
-    const { firstName, lastName, email, password } = inputVal;
+    const { firstName, lastName, email, password, acctBalance } = inputVal;
   
     if (firstName === "") {
       alert("Name field is required.");
@@ -84,6 +89,7 @@ const Register = () => {
         lastName,
         email,
         password,
+        acctBalance
       };
   
       // Append the new entry to the existing data
@@ -169,7 +175,7 @@ const Register = () => {
             >
               Register
             </Button>
-            <a href="/" variant="body2">             
+            <a href="/budget/login">             
                 {"Already have an account? Sign In"}         
             </a>
           </Box>

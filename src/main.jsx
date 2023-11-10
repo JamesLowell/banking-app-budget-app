@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import BudgetApp from './BudgetApp.jsx';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
 import BankingApp from './BankingApp.jsx';
 import Settings from './pages/setting.jsx';
@@ -16,41 +17,51 @@ import UserDetails from './bank-components/UserDetails';
 import { getContact } from './GetContact.jsx';
 import Login from './pages/login';
 import Register from './pages/register';
-import Dashboard from './pages/dboard-ref';
+import budgetDashboard from './pages/budgetDashboard.jsx';
 import ExpenseTracker from './pages/expense-tracker';
 import ProtectedRoute  from './component/protected-route';
 import '../src/App.css';
 import './index.css';
+import BankingLogin from './pages/BankingLogin.jsx';
+import BankingRegister from './pages/BankingRegister';
+import BankingAppProtectedRoute from './component/BankingAppProtectedRoute.jsx';
+import BankingLogout from './pages/bankingLogout.jsx';
 
 const router = createBrowserRouter([
+{
+  path: '/budget',
+  element: <BudgetApp />,
+  children: [
+    {
+      path:"login",
+      element: <Login />,
+      index: true,
+    },
+    {
+      path:"register",
+      element: <Register />,
+    },
+    {
+      path:"dashboard",
+      element: <ProtectedRoute> <budgetDashboard /> </ProtectedRoute>,
+    },
+    {
+      path:"expense",
+      element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
+    },
+  ]
+},
   {
-    path: '',
-    element: <LandingPage />
+    path:"/bankinglogin",
+    element: <BankingLogin />,
   },
   {
-    path:"/budget/login",
-    element: <Login />,
-    index:true
-  },
-  {
-    path:"/register",
-    element: <Register />,
-  },
-  {
-    path:"/dashboard",
-    element: <ProtectedRoute> <Dashboard /> </ProtectedRoute>,
-  },
-  {
-    path:"/expense",
-    element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
-  },
-  {
-    path: '/customer-list',
-    element: <CustomerList />,
+    path:"/bankingregister",
+    element: <BankingRegister />,
   },
   {
     path: 'banking-app',
-    element: <BankingApp />,
+    element: <BankingAppProtectedRoute><BankingApp /></BankingAppProtectedRoute>,
     children: [
       {
         path: '',
@@ -84,6 +95,10 @@ const router = createBrowserRouter([
         element: <EditUser />,
         loader: userLoader,
         action: editUserAction
+      },
+      {
+      path:'logout',
+      element: <BankingLogout/>
       }
     ],
   },
