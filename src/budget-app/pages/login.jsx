@@ -146,14 +146,17 @@ const defaultTheme = createTheme({
             >
               Sign In
             </Button>
+            <Link href="/landing-page">
             <Button
-              type="submit"
               fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              variant="outlined"
+              sx={{ mb: 2 }}
             >
-              Back to Dashboard
+              Back to Home
             </Button>
+
+            </Link>
+            
             <Link href="/budget/register" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>
