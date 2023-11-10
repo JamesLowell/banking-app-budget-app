@@ -61,10 +61,6 @@ const router = createBrowserRouter([
 },
 
   {
-    path: '/customer-list',
-    element: <CustomerList />,
-  },
-  {
     path:"/bankinglogin",
     element: <BankingLogin />,
   },
