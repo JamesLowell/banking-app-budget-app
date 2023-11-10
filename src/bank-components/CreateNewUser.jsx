@@ -55,7 +55,7 @@ export async function createNewUserAction({ request }) {
             id: id,
             email: user.email,
             password: user.password,
-            amount,
+            amount: 0,
             address: {
                 houseNumber: houseNumber,
                 city: user.city,
@@ -80,6 +80,9 @@ export async function createNewUserAction({ request }) {
 
 
 const CreateNewUser = () => {
+    const [user, setUser] = useState({
+        password:'',
+    })
 
     useEffect(() => {
         if (user.password) {
@@ -139,9 +142,7 @@ const CreateNewUser = () => {
                         <input type='email' id='email' name='email' className='border-[1px] rounded-lg p-2 font-mulish text-lg w-[100%]'
                     required/>
                     </label>
-                    {
-                        error.emailError && <div className='font-mulish text-lg'><span className='bg-red-600 rounded-full w-[10px] h-[10px] text-red-600'>.</span>Email is already used</div> 
-                    }
+
                     <label htmlFor='password' className='w-[100%] font-abril text-2xl'> Password
                         <input type='password' id='password' name='password' className='border-[1px] rounded-lg p-2 font-mulish text-lg w-[100%]'
                         onChange={e => {
