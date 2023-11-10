@@ -28,7 +28,7 @@ import BankingAppProtectedRoute from './component/BankingAppProtectedRoute.jsx';
 import BankingLogout from './pages/bankingLogout.jsx';
 
 const router = createBrowserRouter([
-  {index:true,
+  {path:'/landing-page',
     element:<LandingPage/>
   },
 {
