@@ -83,6 +83,7 @@ const defaultTheme = createTheme({
             alert("Invalid login.")
           } else {
             alert("Login success.")
+            localStorage.setItem("admin-info", JSON.stringify(userlogin));
             window.location.href = 'banking-app';
           }
         }

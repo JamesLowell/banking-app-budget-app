@@ -40,7 +40,7 @@ const NavBarSide = () => {
       </NavLink>
 
 
-      <NavLink href='/home' className='item'>
+      <NavLink to='logout' className='item'>
       <span><FiLogOut/></span>
         <div className='text'>Log Out</div>
       </NavLink>

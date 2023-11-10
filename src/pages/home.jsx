@@ -5,6 +5,7 @@ import RandomQuotes from "../randomQuotes";
 import { BiNote } from "react-icons/bi";
 
 const Home = () => {
+  const admin = JSON.parse(localStorage.getItem("admin-info")) || {};
   return (
     <main style={{ position: "fixed", marginLeft: "5rem" }}>
       <div className="homeContainer">
@@ -12,7 +13,7 @@ const Home = () => {
           <h1 className="clock">
           <Clock />          
         </h1>
-        <span className="greetings">Hello, Admin!</span>
+        <span className="greetings">Hello, {admin.firstName}!</span>
         </div>
         <button className="add-notes">
           <BiNote/>
