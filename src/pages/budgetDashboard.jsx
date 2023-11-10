@@ -32,6 +32,9 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import { Italic } from 'lucide-react';
 
 
@@ -118,10 +121,89 @@ function MoneyActionIcon(props) {
   );
 }
 
+function EditExpenseModal({ expense, onUpdate, onCancel }) {
+  const [editedFields, setEditedFields] = useState(expense);
+
+  const handleChange = (e) => {
+    setEditedFields({
+      ...editedFields,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  return (
+    <Dialog open>
+      <DialogTitle>Edit Expense</DialogTitle>
+      <DialogContent display="flex">
+      <InputLabel id="expenseTitle">Expense Title</InputLabel>
+        <TextField
+          name="expenseTitle"
+          value={editedFields.expenseTitle}
+          onChange={handleChange}
+          inputProps={{ maxLength: 20 }}
+        />
+
+        <InputLabel id="expenseCategory">Category</InputLabel>
+        <Select labelId="Category" name="expenseCategory" id="Category" value={editedFields.expenseCategory} fullWidth label="Category" onChange={handleChange}>
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="Food & Drinks">Food & Drinks</MenuItem>
+                <MenuItem value="Shopping">Shopping</MenuItem>
+                <MenuItem value="Housing">Housing</MenuItem>
+                <MenuItem value="Transportation">Transportation</MenuItem>
+                <MenuItem value="Life & Entertainment">Life & Entertainment</MenuItem>
+                <MenuItem value="Others">Others</MenuItem>
+              </Select>
+
+        
+        <InputLabel id="expenseDate">Date</InputLabel>
+
+        <TextField
+          name="expenseDate"
+          type="date" // Assuming expenseDate is a date field
+          value={editedFields.expenseDate}
+          onChange={handleChange}
+        />
+
+      <InputLabel id="expenseAmount">Amount</InputLabel>
+
+        <TextField
+          name="expenseAmount"
+          type="number" // Assuming expenseAmount is a number field
+          value={editedFields.expenseAmount}
+          onChange={handleChange}
+        />
+        
+        <InputLabel id="expenseDesc">Description</InputLabel>
+
+        <TextField
+          name="expenseDesc"
+          value={editedFields.expenseDesc}
+          onChange={handleChange}
+          multiline
+          rows={4}
+          inputProps={{ maxLength: 80}}
+          sx={{ width: '100%' }}
+          
+        />
+      </DialogContent>
+      
+      <DialogActions>
+      <Button onClick={onCancel}>Cancel</Button>
+        <Button onClick={() => onUpdate(editedFields)}>Save</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+
+
 export default function Dashboard() {
   const storedUserInfo = JSON.parse(localStorage.getItem("user-info"));
   const updatedAcctBalance = storedUserInfo.acctBalance;
   //update balance
+  const [editExpense, setEditExpense] = useState(null);
 
   const [open, setOpen] = React.useState(false);
   const [firstName, setFirstName] = React.useState('User');
@@ -129,6 +211,32 @@ export default function Dashboard() {
 
   const [openModal, setOpenModal] = useState(false);
   const [balanceToAdd, setBalanceToAdd] = useState('');
+
+  const handleEditExpense = (expense) => {
+    setEditExpense(expense);
+  };
+
+  const handleUpdateExpense = (updatedExpense) => {
+  // Find the expense to be updated in the expenseList
+  const updatedExpenseList = expenseList.map((expense, index) => {
+    if (index === selectedIndex) {
+      return updatedExpense; // Replace the expense with the updated one
+    }
+    return expense;
+  });
+
+  // Update the state with the modified expense list
+  setExpenseList(updatedExpenseList);
+
+  // Retrieve the email of the logged-in user
+  const loggedIn = storedUserInfo.email;
+
+  // Update the local storage with the modified expense list
+  localStorage.setItem(loggedIn, JSON.stringify(updatedExpenseList));
+
+  setEditExpense(null); // Clear the edited expense state
+};
+
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -433,10 +541,32 @@ const handleCancelPayNow = () => {
                             </Avatar>
                           </ListItemAvatar>
                           <ListItemText
+                            primaryTypographyProps={{
+                              style: {
+                                fontWeight: 'bold',
+                                maxWidth: '180px', // Adjust this value as needed
+                                minWidth: '100px', // Adjust this value as needed
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }
+                            }}
+
+                            secondaryTypographyProps={{
+                              style: {
+                                maxWidth: '150px', // Adjust this value as needed
+                                minWidth: '100px', // Adjust this value as needed
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }
+                            }}
+
                             
                             primary={expense.expenseTitle}
                             secondary={expense.expenseDesc}
-                            primaryTypographyProps={{ style: { fontWeight: 'bold' } }}
+                            
+                            
                           />
 
                           <ListItemText
@@ -462,13 +592,21 @@ const handleCancelPayNow = () => {
                                 <PriceCheckIcon /> Pay Now
                               </StyledButton>
 
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() => handleDeleteExpense(index)}
-                          >
-                            <ModeEditIcon />
-                          </IconButton>
+                              <IconButton 
+                                edge="end"
+                                aria-label="edit" 
+                                onClick={() => handleEditExpense(expense)}>
+                                <ModeEditIcon />  
+                              </IconButton>
+
+                              {/* Render EditExpenseModal */}
+                                {editExpense && (
+                                  <EditExpenseModal
+                                    expense={editExpense}
+                                    onUpdate={handleUpdateExpense}
+                                    onCancel={() => setEditExpense(null)}
+                                  />
+                                )}
 
                           <IconButton
                             edge="end"

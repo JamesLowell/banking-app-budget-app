@@ -159,6 +159,7 @@ export default function TrackExpense() {
               variant="standard" 
               value={expenseTitle} 
               onChange={handleStoreValues} 
+              inputProps={{ maxLength: 20 }}
               sx={{ marginTop: 2 }} />
 
             {/* Category select */}
@@ -197,6 +198,7 @@ export default function TrackExpense() {
               variant="standard" 
               value={expenseDesc} 
               onChange={handleStoreValues}
+              inputProps={{ maxLength: 40 }}
               sx={{ marginTop: 3 }} />
 
               {/* Amount field */}
