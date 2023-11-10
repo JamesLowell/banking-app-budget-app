@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { Link, Form } from "react-router-dom";
-import "./UserInfo.css";
+import "./assets/UserInfo.css";
 import { NavLink, useLoaderData } from "react-router-dom";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { GiPayMoney } from "react-icons/gi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BiNote } from "react-icons/bi";
-import Clock from "../clock";
-import RandomQuotes from "../randomQuotes";
+import Clock from "../../component/clock";
+import RandomQuotes from "../../component/randomQuotes";
 import { useState } from "react";
 import ReactModal from "react-modal";
-import WithdrawModal from "./WithdrawModal";
-import DepositModal from "./DepositModal";
-import TransferModal from "./TransferModal";
+import WithdrawModal from "../bank-components/transaction-modal/WithdrawModal";
+import DepositModal from "../bank-components/transaction-modal/DepositModal";
+import TransferModal from "../bank-components/transaction-modal/TransferModal";
 
 export async function userLoader({ params }) {
   const usersData = (await JSON.parse(localStorage.getItem("users"))) || [];

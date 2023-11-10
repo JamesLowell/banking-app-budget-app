@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import "./modal.css";
+import "./assets/modal.css";
 import { useLoaderData } from "react-router-dom";
 
 const WithdrawModal = ({ isOpen, onRequestClose }) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import getLocalStorage from '../utils/getlocalstorage';
+import getLocalStorage from '../../utils/getlocalstorage';
 import { Navigate } from 'react-router-dom';
 
 export default function BankingAppProtectedRoute({ children }) {
