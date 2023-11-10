@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, Form } from "react-router-dom";
 import "./UserInfo.css";
-import { NavLink, useLoaderData } from "react-router-dom";
+import { NavLink, useLoaderData, Form, Link } from "react-router-dom";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { GiPayMoney } from "react-icons/gi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
@@ -40,20 +40,7 @@ const UserInfo = () => {
       </div>
       <div style={{ position: "absolute", right: "6rem", top: "1rem" }}>
         <span><Clock /></span>
-      </div>
-      <div className="userInfo relative">
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <h1 className="lastName">{user.lastName},</h1>
-          <h1 className="firstName">{user.firstName}</h1>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", fontStyle: "italic", letterSpacing: ".1rem", color: "black" }}>
-          <span className="address">{user.address}</span>
-          <span className="contactNumber">{user.contactNumber}</span>
-          <span className="email">{user.email}</span>
-          <span className="amount">Balance: {user.amount}</span>
-          <Link to={`../user/${user.id}/edit`} className="absolute bottom-4 right-32">Edit User Information</Link>
-        </div>
-        
+      </div>    
         <div className="userInfo relative">
           <div style={{ display: "flex", gap: "1rem" }}>
             <h1 className="lastName">{user.lastName},</h1>
