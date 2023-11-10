@@ -1,6 +1,5 @@
 // import * as React from 'react';
 import React, {useEffect, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, DialogTitle, TextField } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,8 +20,8 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
-import Alert from '@mui/material/Alert';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 
 function Copyright(props) {
@@ -37,7 +36,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
 
 const drawerWidth = 240;
 
@@ -59,7 +57,6 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme({
   palette: {
     primary: {
@@ -81,6 +78,7 @@ function MoneyActionIcon(props) {
     <Paper
       sx={{
         p: 2,
+        m:0.5,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -92,15 +90,19 @@ function MoneyActionIcon(props) {
         },
       }}
     >
-      {icon}
-      <Typography variant="subtitle1" color="textSecondary">
+        {icon}
+        <Typography variant="subtitle1" color="textSecondary">
         {text}
-      </Typography>
+        </Typography>
     </Paper>
   );
 }
 
 export default function Dashboard() {
+  const storedUserInfo = JSON.parse(localStorage.getItem("user-info"));
+  const updatedAcctBalance = storedUserInfo.acctBalance;
+  //update balance
+
   const [open, setOpen] = React.useState(false);
   const [firstName, setFirstName] = React.useState('User');
   const [acctBalance, setAcctBalance] = React.useState('0.00');
@@ -117,8 +119,6 @@ export default function Dashboard() {
   };
 
   const handleAddBalance = () => {
-    // Here you can implement your logic to add the balance to the 'user-info' in local storage.
-  const storedUserInfo = JSON.parse(localStorage.getItem("user-info"));
 
   // Check if user-info exists in local storage and has 'acctBalance'
   if (storedUserInfo && typeof storedUserInfo.acctBalance === 'number') {
@@ -135,10 +135,9 @@ export default function Dashboard() {
       // Map the "users-list" array to update the balance for the matching email
       const updatedUserList = userList.map(user => {
         if (user.email === storedUserInfo.email) {
-          
           return { ...user, acctBalance: newBalance };
-          
         }
+        
         return user;
       });
 
@@ -160,13 +159,36 @@ export default function Dashboard() {
     }
   }, []);
 
-  // Load user information from localStorage when the component mounts
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("user-info"));
     if (userInfo && userInfo.firstName) {
       setFirstName(userInfo.firstName);
     }
-  }, []); // The empty array means this effect runs only once when the component mounts
+  }, []); 
+
+
+  //Retrieve expenses
+  const [expenseList, setExpenseList] = useState([]);
+
+  // Function to retrieve and set the expense list
+  const retrieveExpenseList = () => {
+    // Get the email from "user-info" in local storage
+    const loggedIn = storedUserInfo.email;
+
+    // Search local storage for the key with the same value as loggedIn
+    const expenseDataString = localStorage.getItem(loggedIn);
+
+    if (expenseDataString) {
+      // Parse the existing expense data
+      const existingExpenseData = JSON.parse(expenseDataString);
+      setExpenseList(existingExpenseData);
+    }
+  };
+
+  // Call the retrieveExpenseList function when the component mounts
+  useEffect(() => {
+    retrieveExpenseList();
+  });
 
 
   return (
@@ -176,7 +198,7 @@ export default function Dashboard() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: '24px', // keep right padding when drawer closed
+              pr: '24px', 
             }}
           >
           
@@ -188,11 +210,11 @@ export default function Dashboard() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Welcome, {firstName}!
+              Logo
             </Typography>
             <a href="/budget/login">
             <Button color="inherit">
-              Logout
+              <LogoutIcon /> Sign Out
             </Button>
               </a>
           </Toolbar>
@@ -214,6 +236,16 @@ export default function Dashboard() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={4}>
               <Grid item xs={12} md={8} lg={6}>
+              <Typography
+              fontFamily='ITC Benguiat Std'
+              fontWeight={700}
+              variant="h4"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 , paddingTop:4}}
+            >
+              Welcome, {firstName}!
+            </Typography>
                 <Paper
                   sx={{
                     p: 10 ,
@@ -229,7 +261,8 @@ export default function Dashboard() {
                     Account Balance
                   </Typography>
                   <Typography variant="h2" fontWeight={700}>
-                    PHP {acctBalance}
+                  PHP {parseFloat(updatedAcctBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+
                     
                     {/* Add Balance Icon */}
 
@@ -243,10 +276,16 @@ export default function Dashboard() {
                     <TextField
                         autoFocus
                         label="Enter balance"
-                        type="number"
                         fullWidth
                         value={balanceToAdd}
-                        onChange={(e) => setBalanceToAdd(e.target.value)}
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+                      
+                          // Allow only positive numbers
+                          if (!isNaN(inputValue) && inputValue >= 0) {
+                            setBalanceToAdd(inputValue);
+                          }
+                        }}
                       />
                     </DialogContent>
                     <DialogActions>
@@ -265,12 +304,23 @@ export default function Dashboard() {
 
 
           {/* Create Budget, Create Goals, View Budget & Goals, Expense Tracker ICONS */}
-          <Grid item xs={12} md={4} lg={6} sx={{p: 3, display: 'flex', flexWrap: 'wrap'}}>
-            <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} />
-            <MoneyActionIcon text="Create Goals" icon={<AddToQueueIcon fontSize="large" />} />
-            <MoneyActionIcon text="View Budgets and Goals" icon={<AttachMoneyIcon fontSize="large" />} />
-            <a href='/budget/expense'><MoneyActionIcon text="Expense Tracker" icon={<AttachMoneyIcon fontSize="large" />} /></a>
+          <Grid item xs={12} md={4} lg={6} sx={{p: 0, display: 'flex' , justifyContent:'center', alignItems: 'center', textAlign:'center' }}>
+          
+          <a href='#' id="icon-design">
+            <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%'}} />
+          </a>
+          <a href='#'>
+            <MoneyActionIcon text="Create Goals" icon={<AddToQueueIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
+          </a>
+          <a href='#'>
+          <MoneyActionIcon text="Budgets & Goals" icon={<AttachMoneyIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
+          </a>
+          <a href='/budget/expense'>
+            <MoneyActionIcon text="Expense Tracker" icon={<AttachMoneyIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
+          </a>
+
           </Grid>
+
 
               {/* Expense Tracker*/}
               <Grid item xs={12}>
@@ -290,7 +340,7 @@ export default function Dashboard() {
                   </Typography>
                  
 
-                <List>
+                {/* <List>
               
                 <ListItem
                   secondaryAction={
@@ -310,7 +360,24 @@ export default function Dashboard() {
                   />
                 </ListItem>,
             
-            </List>
+            </List> */}
+
+                  <List>
+                    {/* Iterate over expenseList and display each item */}
+                    {expenseList.map((expense, index) => (
+                      <ListItem key={index}>
+                        <ListItemAvatar>
+                          <Avatar>
+                            <FolderIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={expense.expenseTitle}
+                          secondary={expense.expenseDesc}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
                   
                 </Paper>
               </Grid>

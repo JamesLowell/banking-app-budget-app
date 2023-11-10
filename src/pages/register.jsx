@@ -97,6 +97,8 @@ const Register = () => {
   
       // Store the updated data in localStorage
       localStorage.setItem("users-list", JSON.stringify(existingData));
+
+      window.location.href = "/budget";
     }
   }
 

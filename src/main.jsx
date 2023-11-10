@@ -17,7 +17,7 @@ import UserDetails from './bank-components/UserDetails';
 import { getContact } from './GetContact.jsx';
 import Login from './pages/login';
 import Register from './pages/register';
-import budgetDashboard from './pages/budgetDashboard.jsx';
+import BudgetDashboard from './pages/budgetDashboard.jsx';
 import ExpenseTracker from './pages/expense-tracker';
 import ProtectedRoute  from './component/protected-route';
 import '../src/App.css';
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
     },
     {
       path:"dashboard",
-      element: <ProtectedRoute> <budgetDashboard /> </ProtectedRoute>,
+      element: <ProtectedRoute> <BudgetDashboard /> </ProtectedRoute>,
     },
     {
       path:"expense",
@@ -51,6 +51,11 @@ const router = createBrowserRouter([
   {
     path: '/customer-list',
     element: <CustomerList />,
+  },
+  {
+    path: '/',
+    element: <LandingPage />,
+    index: true
   },
   {
     path: 'banking-app',

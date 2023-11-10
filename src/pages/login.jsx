@@ -11,8 +11,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+
 
 
 function Copyright() {
@@ -63,7 +65,6 @@ const defaultTheme = createTheme({
   const addData = (e) => {
     e.preventDefault();
     const { email, password } = inputVal;
-
     const userData = JSON.parse(localStorage.getItem("users-list") || "[]")
 
     if (email === "") {
