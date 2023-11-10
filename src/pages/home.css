@@ -1,0 +1,38 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+  border-radius: 59% 41% 70% 30% / 40% 71% 29% 60% ;
+  background: linear-gradient(145deg, #dbdad2, #ffb946);
+  box-shadow: 20px 20px 60px #cfcec6, -20px -20px 60px #ffffff;
+}
+.clock {
+  font-size: 7rem;
+}
+.greetings {
+  font-size: 3rem;
+}
+.random-quotes {
+  position: absolute;
+  bottom: 1rem;
+}
+.add-notes {
+  position: absolute;
+  right: 6rem;
+  bottom: 1rem;
+  padding: 1rem;
+  background-color: orange;
+  border-radius: 50%;
+  border: 1px solid black;
+  z-index: 1;
+}

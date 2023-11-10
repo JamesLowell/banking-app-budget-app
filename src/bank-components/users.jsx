@@ -1,9 +1,14 @@
-export const user = [
+export const userList = [
     {
       firstName: "Alice",
       lastName: "Johnson",
       id: 1,
-      address: "123 Elm Street",
+      address: {
+        houseNumber: "123 Elm Street",
+        city: "Montalban",
+        province: "Rizal",
+        country: "Philippines"
+      },
       contactNumber: "(555) 555-1234",
       email: "alice@email.com",
       amount: 2500,
@@ -32,7 +37,12 @@ export const user = [
       firstName: "Bob",
       lastName: "Smith",
       id: 2,
-      address: "456 Oak Avenue",
+      address: {
+        houseNumber: "456 Oak Avenue",
+        city: "Montalban",
+        province: "Rizal",
+        country: "Philippines"
+      },
       contactNumber: "(555) 555-5678",
       email: "bob@email.com",
       amount: 1800,
@@ -61,7 +71,12 @@ export const user = [
       firstName: "Carol",
       lastName: "Brown",
       id: 3,
-      address: "789 Pine Road",
+      address: {
+        houseNumber: "456 Oak Avenue",
+        city: "Montalban",
+        province: "Rizal",
+        country: "Philippines"
+      },
       contactNumber: "(555) 555-8765",
       email: "carol@email.com",
       amount: 3000,
@@ -71,7 +86,12 @@ export const user = [
       firstName: "David",
       lastName: "Lee",
       id: 5,
-      address: "101 Maple Lane",
+      address: {
+        houseNumber: "456 Oak Avenue",
+        city: "Montalban",
+        province: "Rizal",
+        country: "Philippines"
+      },
       contactNumber: "(555) 555-2345",
       email: "david@email.com",
       amount: 2500,
@@ -81,7 +101,12 @@ export const user = [
       firstName: "Emma",
       lastName: "Wilson",
       id: 4,
-      address: "555 Cedar Lane",
+      address: {
+        houseNumber: "456 Oak Avenue",
+        city: "Montalban",
+        province: "Rizal",
+        country: "Philippines"
+      },
       contactNumber: "(555) 555-7890",
       email: "emma@email.com",
       amount: 4000,

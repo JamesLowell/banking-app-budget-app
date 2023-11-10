@@ -33,10 +33,6 @@ const UserInfo = () => {
     setModalType(null);
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
-
   return (
     <div className="userInfoContainer">
       <div className="randomQuotes">
@@ -57,6 +53,29 @@ const UserInfo = () => {
           <span className="amount">Balance: {user.amount}</span>
           <Link to={`../user/${user.id}/edit`} className="absolute bottom-4 right-32">Edit User Information</Link>
         </div>
+        
+        <div className="userInfo relative">
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <h1 className="lastName">{user.lastName},</h1>
+            <h1 className="firstName">{user.firstName}</h1>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              fontStyle: "italic",
+              letterSpacing: ".1rem",
+              color: "black",
+            }}
+          >
+            <span className="address">{user.address.houseNumber} {user.address.city} {user.address.province} {user.address.country}</span>
+            <span className="contactNumber">{user.contactNumber}</span>
+            <span className="email">{user.email}</span>
+            <span className="amount">Balance: {user.amount}</span>
+            <Form action='edit' className="absolute bottom-4 right-32">
+              <Link to={`../user/${user.id}/edit`}>Edit User Information</Link>
+            </Form>
+          </div>
       </div>
       <div className="transactionContainer">
         <div className="transactionHistoryContainer">
@@ -92,7 +111,7 @@ const UserInfo = () => {
         className="my-modal"
         overlayClassName="my-overlay"
       >
-        <WithdrawModal isOpen={true} onRequestClose={closeModal} currentUserId={1} />
+        <WithdrawModal isOpen={modalType === 'withdraw'} onRequestClose={closeModal} />
       </ReactModal>
       <ReactModal
         isOpen={modalType === 'deposit'}
