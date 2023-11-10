@@ -1,11 +1,59 @@
 import React, {useState, useEffect } from 'react'
 import { Form, useLoaderData, redirect } from "react-router-dom"
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 
 export async function editUserAction({request, params}) {
-    const formData = await request.formData()
-    const updates = Object.fromEntries(formData)
-    await updateContact(params.customerId, updates)
-    return redirect(`../customer/${params.customerId}`)
+    try {
+        const formData = await request.formData()
+        const user = Object.fromEntries(formData)
+        const users = JSON.parse(localStorage.getItem('users'))
+        console.log(users)
+
+        const nameRegex = /^[A-Z][a-zA-Z]{2,19}$/;
+
+        if (!nameRegex.test(user.lastName)) {
+            throw new Error('Last name should start with a capital letter and be between 3 and 20 characters long.');
+        }
+
+        if (!nameRegex.test(user.firstName)) {
+            throw new Error('First name should start with a capital letter and be between 3 and 20 characters long.');
+        }
+
+        if (user.middleName && !nameRegex.test(user.middleName)) {
+            throw new Error('Middle name should start with a capital letter and be between 3 and 20 characters long.');
+        }
+
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+        const isPasswordStrong = !passwordRegex.test(user.password)
+        if (isPasswordStrong) {
+            throw new Error('Email is already in use')
+        }
+        const isEmailUsed = users.find((storedUser) => storedUser.email === user.email && storedUser.id !== parseInt(params.userId, 10))
+
+        if (isEmailUsed) {
+            throw new Error('Email is already in use');
+        }
+
+        const passwordMatched = user.password === user.retypedPassword;
+
+        if (!passwordMatched) {
+            throw new Error('Passwords do not match');
+        }
+
+        const referenceUser = users.find(user => user.id === parseInt(params.userId, 10))
+        if (!referenceUser) throw new Error(`No user found for ${params.userId}`);
+        Object.assign(referenceUser, user);
+          
+        localStorage.setItem('users', JSON.stringify(users));
+          
+        return redirect(`../user/${params.userId}`)
+
+        } catch (error) {
+            toast.error(`${error}`)
+            return  { error: 'An unexpected error occurred' }
+        }
 }
 
 const EditUser = () => {
@@ -31,50 +79,27 @@ const EditUser = () => {
          reTypePasswordError: false,
     })
 
-
-    // const handleFormSubmit = (e) => {
-    //     e.preventDefault()
-    //     // if theres no error create an id then ...user and push it
-    //     const isEmailUsed = users.some(existingUser => existingUser.email.toLowerCase() === user.email.toLowerCase())
-    //     if(isEmailUsed) {
-    //         setError({...error, emailError: isEmailUsed})
-    //     }
-    //     if(user.password !== user.reTypePassword) {
-    //         setError({...error, reTypePasswordError: true})
-    //     }
-
-    //     if(!error.emailError && !error.passwordError && !error.reTypePasswordError) {
-            
-    //         const updatedUsers = [...users, newUser]
-    //         setError({...error,
-    //             emailError: false,
-    //             passwordError: false,
-    //             reTypePasswordError: false,
-    //         })
-    //     }
-    // }
-
 return (
     <>
         <Form className='flex items-center flex-col pl-[7rem] py-4 pr-8 absolute overflow-x-auto w-full' method='post'>
             <div className='border-[1px] rounded-lg py-16 px-8 relative flex flex-wrap gap-4 mb-8'>
                 <span className='absolute top-[-20px] left-[40%] font-abril bg-white text-4xl'>Personal Information</span>
-                <label htmlFor='last-name' className='w-[30%] font-abril text-2xl'> Last Name
-                    <input type='text' id='last-name' name='last-name' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.lastName}  required/>
+                <label htmlFor='lastName' className='w-[30%] font-abril text-2xl'> Last Name
+                    <input type='text' id='lastName' name='lastName' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.lastName}  required/>
                 </label>
-                <label htmlFor='first-name' className='w-[30%] font-abril text-2xl'> First Name
-                    <input type='text' id='first-name' name='first-name' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.firstName}  required/>
+                <label htmlFor='firstName' className='w-[30%] font-abril text-2xl'> First Name
+                    <input type='text' id='firstName' name='firstName' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.firstName}  required/>
                 </label>
-                <label htmlFor='middle-name' className='w-[30%] font-abril text-2xl'> Middle Name
-                    <input type='text' id='middle-name' name='middle-name' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]'
+                <label htmlFor='middleName' className='w-[30%] font-abril text-2xl'> Middle Name
+                    <input type='text' id='middleName' name='middleName' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]'
                     defaultValue={user.middleName} />
                 </label>
             
             </div>
             <div className='border-[1px] rounded-lg py-16 px-8 relative flex flex-wrap gap-4 mb-8'>
                 <span className='absolute top-[-20px] left-[40%] font-abril bg-white text-4xl'>Complete Address</span>
-                <label htmlFor='house-number' className='w-full font-abril text-2xl'> House Number / Subdivision 
-                    <input type='text' id='house-number' name='house-number' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.address.houseNumber} required/>
+                <label htmlFor='houseNumber' className='w-full font-abril text-2xl'> House Number / Subdivision 
+                    <input type='text' id='houseNumber' name='houseNumber' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' defaultValue={user.address.houseNumber} required/>
                 </label>
                 <label htmlFor='city' className='w-[30%] font-abril text-2xl'> City
                     <input type='text' id='city' name='city' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg  w-[70%]' defaultValue={user.address.city} required/>
@@ -101,8 +126,8 @@ return (
                     error.passwordError && <div className='font-mulish text-lg'><span className='bg-red-600 rounded-full w-[10px] h-[10px] text-red-600'>.</span> Weak password: It should consist of a minimum of 8 characters, including an uppercase letter and digits.</div> 
                         || user.password && <div>Strong Password</div>
                 }
-                <label htmlFor='repeat-password' className='w-[100%] font-abril text-2xl'> Repeat your Password
-                    <input type='password' id='repeat-password' name='repeat-password' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' required/>
+                <label htmlFor='retypedPassword' className='w-[100%] font-abril text-2xl'> Repeat your Password
+                    <input type='password' id='retypedPassword' name='retypedPassword' className='border-[1px] rounded-lg p-2 ml-4 font-mulish text-lg w-[70%]' required/>
                 </label>           
                 {
                     error.reTypePasswordError && <div className='font-mulish text-lg'><span className='bg-red-600 rounded-full w-[10px] h-[10px] text-red-600'>.</span>Password doesn't match</div>
