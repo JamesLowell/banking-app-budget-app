@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import DashBoard from './pages/dashboard.jsx';
 import BudgetApp from './BudgetApp.jsx';
 import BankingDashBoard from './pages/bankingDashBoard.jsx';
 import BankingApp from './BankingApp.jsx';
@@ -18,7 +17,7 @@ import UserDetails from './bank-components/UserDetails';
 import { getContact } from './GetContact.jsx';
 import Login from './pages/login';
 import Register from './pages/register';
-import Dashboard from './pages/dboard-ref';
+import budgetDashboard from './pages/budgetDashboard.jsx';
 import ExpenseTracker from './pages/expense-tracker';
 import ProtectedRoute  from './component/protected-route';
 import '../src/App.css';
@@ -36,6 +35,7 @@ const router = createBrowserRouter([
     {
       path:"login",
       element: <Login />,
+      index: true,
     },
     {
       path:"register",
@@ -43,23 +43,14 @@ const router = createBrowserRouter([
     },
     {
       path:"dashboard",
-      element: <ProtectedRoute> <Dashboard /> </ProtectedRoute>,
+      element: <ProtectedRoute> <budgetDashboard /> </ProtectedRoute>,
     },
     {
       path:"expense",
       element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
-      // action: async function ({request}){
-      //   let data = await request.formData()
-
-      //   const name = data.get("username")
-      //   const email = data.get("email")
-
-
-      // }
     },
   ]
 },
-
   {
     path:"/bankinglogin",
     element: <BankingLogin />,
