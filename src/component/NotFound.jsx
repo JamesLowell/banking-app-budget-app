@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./NotFound.css";
+import "../assets/NotFound.css"
 
 export default function NotFound() {
   const navigate = useNavigate();

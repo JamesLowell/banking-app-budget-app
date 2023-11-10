@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { userList } from './bank-components/users.jsx'
-import NavBarSide from "./NavBarSide";
+import NavBarSide from "./bank-components/NavBarSide.jsx";
 import { ToastContainer } from 'react-toastify'
 
 export default function BankingApp() {

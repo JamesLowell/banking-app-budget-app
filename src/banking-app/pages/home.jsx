@@ -1,7 +1,7 @@
 import React from "react";
-import Clock from "../clock";
-import "./home.css";
-import RandomQuotes from "../randomQuotes";
+import Clock from "../../component/clock";
+import "./assets/home.css";
+import RandomQuotes from "../../component/randomQuotes";
 import { BiNote } from "react-icons/bi";
 
 const Home = () => {
