@@ -1,4 +1,3 @@
-// import * as React from 'react';
 import React, {useEffect, useState} from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, DialogTitle, TextField } from '@mui/material';
@@ -38,6 +37,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { Italic } from 'lucide-react';
 
 
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -58,8 +58,6 @@ const StyledButton = styled(Button)({
     backgroundColor: '#388E3C', // Darker green on hover
   },
 });
-
-const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -272,34 +270,36 @@ const handleCancelPayNow = () => {
   setConfirmationOpen(false); // Close the confirmation dialog
 };
 
-  const handleAddBalance = () => {
-    // Check if user-info exists in local storage and has 'acctBalance'
-    if (storedUserInfo && typeof storedUserInfo.acctBalance === 'number') {
-      const newBalance = storedUserInfo.acctBalance + parseFloat(balanceToAdd);
-      storedUserInfo.acctBalance = newBalance;
 
-    // Update the 'user-info' key in local storage
-    localStorage.setItem("user-info", JSON.stringify(storedUserInfo));
-    // Retrieve the "users-list" from local storage
-    const userList = JSON.parse(localStorage.getItem('users-list'));
-    if (userList && Array.isArray(userList)) {
-      // Map the "users-list" array to update the balance for the matching email
-      const updatedUserList = userList.map(user => {
-        if (user.email === storedUserInfo.email) {
-          return { ...user, acctBalance: newBalance };
-        }
+const handleAddBalance = () => {
+  const storedUserInfo = JSON.parse(localStorage.getItem('user-info'));
+  const userBalanceBanking = JSON.parse(localStorage.getItem('users'));
 
-        return user;
-      });
+  if (storedUserInfo && userBalanceBanking) {
+    const userInfoEmail = storedUserInfo.email;
 
-      // Update the "users-list" with the modified array
-      localStorage.setItem("users-list", JSON.stringify(updatedUserList));
+    const userIndex = userBalanceBanking.findIndex(user => user.email === userInfoEmail);
+
+    if (userIndex !== -1) {
+      const user = userBalanceBanking[userIndex];
+      const newBalance = user.amount - parseFloat(balanceToAdd);
+      // const newDashboardBalance = user.amount - parseFloat(balanceToAdd);
+      const newDashboardBalance = storedUserInfo.acctBalance + parseFloat(balanceToAdd);
+
+      // Update the 'user-info' key in local storage
+      storedUserInfo.acctBalance = newDashboardBalance;
+      localStorage.setItem('user-info', JSON.stringify(storedUserInfo));
+
+      // Update the 'users' key in local storage
+      userBalanceBanking[userIndex].amount = newBalance;
+      localStorage.setItem('users', JSON.stringify(userBalanceBanking));
+
+      // Update the state with the new balance
+      setAcctBalance(newBalance);
+      handleCloseModal();
     }
-    // Update the state with the new balance
-    setAcctBalance(newBalance)
   }
-  handleCloseModal();
-}
+};
 
   useEffect(() => {
     const storedBalance = localStorage.getItem("acctBalance");
@@ -366,7 +366,7 @@ const handleCancelPayNow = () => {
             >
               Logo
             </Typography>
-            <a href="/budget/login">
+            <a href="/landing-page">
             <Button color="inherit">
               <LogoutIcon /> Sign Out
             </Button>
