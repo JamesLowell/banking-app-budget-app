@@ -2,7 +2,6 @@
 import React, {useEffect} from 'react';
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
-
 const BudgetApp = () => {
   
   const navigate = useNavigate();
@@ -14,7 +13,6 @@ const BudgetApp = () => {
       navigate('/budget/login');
     }
   }, [location,navigate]);
-
 
   return (
     <>

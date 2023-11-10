@@ -34,7 +34,6 @@ const Login = () => {
 
   const history = useNavigate();
 
-  //removes the user-info key from localStorage when accesing the login page
   localStorage.removeItem("user-info");
 
   const [inputVal, setInputVal] = useState({

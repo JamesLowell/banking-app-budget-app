@@ -7,11 +7,10 @@
 @import '@fontsource/roboto/500.css';
 @import '@fontsource/roboto/700.css';
 @import url('https://fonts.cdnfonts.com/css/itc-benguiat-std');
-@import url('https://fonts.cdnfonts.com/css/geomanist');
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
 body{
-    background-color: #f3f3e9;
+    background-color: #f3f2e9;
     font-family: 'Geomanist', sans-serif !important;
 }
 h1, h2, h3{

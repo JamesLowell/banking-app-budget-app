@@ -71,6 +71,11 @@ export default function TrackExpense() {
   };
 
   const handleSubmit = () => {
+    if (!expenseTitle || !expenseCategory || !expenseDate || !expenseDesc || !expenseAmount) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
     const expenseData = {
       expenseTitle,
       expenseCategory,
@@ -103,6 +108,17 @@ export default function TrackExpense() {
   
         existingData.push(expenseData);
         localStorage.setItem(localStorageKey, JSON.stringify(existingData));
+
+        setExpenseTitle('');
+        setCategory('');
+        setExpenseDate('');
+        setExpenseDesc('');
+        setExpenseAmount('');
+
+        alert('Success!')
+
+       
+
       } else {
         console.error('User-info does not contain an email.');
       }
@@ -111,8 +127,6 @@ export default function TrackExpense() {
     }
   };
   
-  
-
   const handleBackToDashboard = () => {
     window.location.href = '/budget/dashboard';
   };
@@ -190,7 +204,7 @@ export default function TrackExpense() {
               required 
               id="amount"
               name="amount" 
-              label="amount" 
+              label="Amount" 
               fullWidth 
               autoComplete="cc-amount" 
               variant="standard" 

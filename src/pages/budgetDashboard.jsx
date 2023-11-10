@@ -10,7 +10,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -22,6 +21,18 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import HouseIcon from '@mui/icons-material/House';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import NightlifeIcon from '@mui/icons-material/Nightlife';
+import MoreIcon from '@mui/icons-material/More';
+import HelpIcon from '@mui/icons-material/Help';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import { Italic } from 'lucide-react';
 
 
 function Copyright(props) {
@@ -36,6 +47,14 @@ function Copyright(props) {
     </Typography>
   );
 }
+
+const StyledButton = styled(Button)({
+  color: 'white',
+  backgroundColor: '#4CAF50', // Bright green color
+  '&:hover': {
+    backgroundColor: '#388E3C', // Darker green on hover
+  },
+});
 
 const drawerWidth = 240;
 
@@ -61,13 +80,14 @@ const defaultTheme = createTheme({
   palette: {
     primary: {
       main: '#FFB946',
+      fontWeight: 400,
     },
     secondary: {
-      main: '#FFB946',
+      main: '#F3F2E9',
     },
   },
   typography: {
-    fontFamily:'Geomanist'
+    fontFamily:'Poppins'
   },
 });
 
@@ -118,12 +138,39 @@ export default function Dashboard() {
     setOpenModal(false);
   };
 
-  const handleAddBalance = () => {
+const [confirmationOpen, setConfirmationOpen] = useState(false);
+const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Check if user-info exists in local storage and has 'acctBalance'
+const handlePayNow = (index) => {
+  setSelectedIndex(index); // Set the selected expense index
+  setConfirmationOpen(true); // Open the confirmation dialog
+};
+
+const handleConfirmPayNow = () => {
+  setConfirmationOpen(false); // Close the confirmation dialog
+
+  const selectedExpense = expenseList[selectedIndex];
+
   if (storedUserInfo && typeof storedUserInfo.acctBalance === 'number') {
-    const newBalance = storedUserInfo.acctBalance + parseFloat(balanceToAdd);
+    const newBalance = storedUserInfo.acctBalance - selectedExpense.expenseAmount;
+
     storedUserInfo.acctBalance = newBalance;
+    localStorage.setItem("user-info", JSON.stringify(storedUserInfo));
+
+    setAcctBalance(newBalance);
+    handleDeleteExpense(selectedIndex);
+  }
+};
+
+const handleCancelPayNow = () => {
+  setConfirmationOpen(false); // Close the confirmation dialog
+};
+
+  const handleAddBalance = () => {
+    // Check if user-info exists in local storage and has 'acctBalance'
+    if (storedUserInfo && typeof storedUserInfo.acctBalance === 'number') {
+      const newBalance = storedUserInfo.acctBalance + parseFloat(balanceToAdd);
+      storedUserInfo.acctBalance = newBalance;
 
     // Update the 'user-info' key in local storage
     localStorage.setItem("user-info", JSON.stringify(storedUserInfo));
@@ -152,44 +199,47 @@ export default function Dashboard() {
   
   useEffect(() => {
     const storedBalance = localStorage.getItem("acctBalance");
+    const userInfo = JSON.parse(localStorage.getItem("user-info"));
 
     if (storedBalance) {
       const formattedBalance = parseFloat(storedBalance).toFixed(2);
       setAcctBalance(formattedBalance);
     }
-  }, []);
 
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("user-info"));
     if (userInfo && userInfo.firstName) {
       setFirstName(userInfo.firstName);
     }
+    //displays expense list
+    retrieveExpenseList();
   }, []); 
 
-
-  //Retrieve expenses
   const [expenseList, setExpenseList] = useState([]);
 
-  // Function to retrieve and set the expense list
   const retrieveExpenseList = () => {
-    // Get the email from "user-info" in local storage
     const loggedIn = storedUserInfo.email;
-
-    // Search local storage for the key with the same value as loggedIn
     const expenseDataString = localStorage.getItem(loggedIn);
 
     if (expenseDataString) {
-      // Parse the existing expense data
       const existingExpenseData = JSON.parse(expenseDataString);
       setExpenseList(existingExpenseData);
     }
   };
 
-  // Call the retrieveExpenseList function when the component mounts
-  useEffect(() => {
-    retrieveExpenseList();
-  });
-
+  const handleDeleteExpense = (index) => {
+    const updatedExpenseList = [...expenseList];
+  
+    // Remove the expense at the specified index from the copied list
+    updatedExpenseList.splice(index, 1);
+  
+    // Update the state with the modified list (removed item)
+    setExpenseList(updatedExpenseList);
+  
+    // Retrieve the email of the logged-in user
+    const loggedIn = storedUserInfo.email;
+  
+    // Update the local storage with the modified expense list
+    localStorage.setItem(loggedIn, JSON.stringify(updatedExpenseList));
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -216,7 +266,7 @@ export default function Dashboard() {
             <Button color="inherit">
               <LogoutIcon /> Sign Out
             </Button>
-              </a>
+            </a>
           </Toolbar>
         </AppBar>
         
@@ -234,6 +284,7 @@ export default function Dashboard() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+             {/* User greeting and account balance */}
             <Grid container spacing={4}>
               <Grid item xs={12} md={8} lg={6}>
               <Typography
@@ -248,52 +299,54 @@ export default function Dashboard() {
             </Typography>
                 <Paper
                   sx={{
-                    p: 10 ,
+                    p: 4 ,
                     display: 'flex',
                     flexDirection: 'column',
                     height: 240,
+                    minWidth: '400px',
                     backgroundColor: 'white',
                     border: '1px solid black',
+                    justifyContent: 'center',
                     boxShadow: '4px 4px 1px rgba(0, 0, 0, 0.9)',
                   }}
                 >
+                  {/* Account Balance component */}
                   <Typography  fontWeight={700} fontFamily='ITC Benguiat Std' letterSpacing={1} variant='h5'>
                     Account Balance
                   </Typography>
-                  <Typography variant="h2" fontWeight={700}>
-                  PHP {parseFloat(updatedAcctBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  <Typography variant="h2" fontSize={40} fontWeight={700} color={updatedAcctBalance < 0 ? 'red' : 'inherit'}>
+                  PHP {parseFloat(updatedAcctBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}  {/* Add Balance Icon */}
+                    <IconButton display="flex" flexWrap="wrap" onClick={handleOpenModal}>
+                      <AddCircleIcon />
+                    </IconButton>
 
-                    
-                    {/* Add Balance Icon */}
-
-                    <IconButton onClick={handleOpenModal}>
-                    <AddCircleIcon />
-                      </IconButton>
+                   
 
                     <Dialog open={openModal} onClose={handleCloseModal}>
-                    <DialogTitle>Add Balance</DialogTitle>
-                    <DialogContent>
-                    <TextField
-                        autoFocus
-                        label="Enter balance"
-                        fullWidth
-                        value={balanceToAdd}
-                        onChange={(e) => {
-                          const inputValue = e.target.value;
-                      
-                          // Allow only positive numbers
-                          if (!isNaN(inputValue) && inputValue >= 0) {
-                            setBalanceToAdd(inputValue);
-                          }
-                        }}
-                      />
-                    </DialogContent>
+                      <DialogTitle>Cash In</DialogTitle>
+                        <DialogContent>
+                          <TextField
+                            autoFocus
+                            label="Enter Amount"
+                            marginTop="3px"
+                            fullWidth
+                            value={balanceToAdd}
+                            onChange={(e) => {
+                              const inputValue = e.target.value;
+                              
+                              // Allow only positive numbers
+                              if (!isNaN(inputValue) && inputValue >= 0) {
+                                setBalanceToAdd(inputValue);
+                              }
+                            }}
+                          />
+                        </DialogContent>
                     <DialogActions>
                       <Button onClick={handleCloseModal} color="primary">
                         Cancel
                       </Button>
                       <Button onClick={handleAddBalance} color="primary">
-                        Add Balance
+                        Confirm
                       </Button>
                     </DialogActions>
                   </Dialog>
@@ -304,23 +357,21 @@ export default function Dashboard() {
 
 
           {/* Create Budget, Create Goals, View Budget & Goals, Expense Tracker ICONS */}
-          <Grid item xs={12} md={4} lg={6} sx={{p: 0, display: 'flex' , justifyContent:'center', alignItems: 'center', textAlign:'center' }}>
+          <Grid item xs={12} md={4} lg={6} sx={{ marginTop:8,display: 'flex' , justifyContent:'center', alignItems: 'center', textAlign:'center' }}>
           
           <a href='#' id="icon-design">
             <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%'}} />
           </a>
           <a href='#'>
-            <MoneyActionIcon text="Create Goals" icon={<AddToQueueIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
+            <MoneyActionIcon text="Create Goals" icon={<EditNoteIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
           </a>
           <a href='#'>
-          <MoneyActionIcon text="Budgets & Goals" icon={<AttachMoneyIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
+          <MoneyActionIcon text="Budgets & Goals" icon={<AnalyticsIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
           </a>
           <a href='/budget/expense'>
-            <MoneyActionIcon text="Expense Tracker" icon={<AttachMoneyIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
+            <MoneyActionIcon text="Add Expense" icon={<AttachMoneyIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
           </a>
-
           </Grid>
-
 
               {/* Expense Tracker*/}
               <Grid item xs={12}>
@@ -329,7 +380,9 @@ export default function Dashboard() {
                     p: 4 ,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
+                    maxHeight: '500px',
+                    minHeight: '190px',
+                    height: 'relative',
                     backgroundColor: 'white',
                     border: '1px solid black',
                     boxShadow: '4px 4px 1px rgba(0, 0, 0, 0.9)',
@@ -338,48 +391,119 @@ export default function Dashboard() {
                   <Typography fontWeight={700} fontFamily='ITC Benguiat Std' letterSpacing={1} variant='h5'>
                     Expense Tracker
                   </Typography>
-                 
-
-                {/* <List>
-              
-                <ListItem
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondary={ 'Secondary text'}
-                  />
-                </ListItem>,
             
-            </List> */}
-
+                  {expenseList.length === 0 ? (
+                    <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<AttachMoneyIcon /> Add Expense" to create expense list</Typography>
+                  ) : (
+                <div style={{ overflowY: 'scroll', maxHeight: '440px' }}>
+                  {/* Expense List */}
                   <List>
-                    {/* Iterate over expenseList and display each item */}
-                    {expenseList.map((expense, index) => (
-                      <ListItem key={index}>
-                        <ListItemAvatar>
-                          <Avatar>
-                            <FolderIcon />
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={expense.expenseTitle}
-                          secondary={expense.expenseDesc}
-                        />
-                      </ListItem>
-                    ))}
+                    {expenseList.map((expense, index) => {
+                      let formattedAmt = parseFloat(expense.expenseAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                      let categoryIcon;
+                      switch (expense.expenseCategory) {
+                        case 'Food & Drinks':
+                          categoryIcon = <FastfoodIcon />;
+                          break;
+                        case 'Shopping':
+                          categoryIcon = <ShoppingBagIcon />;
+                          break;
+                        case 'Housing':
+                          categoryIcon = <HouseIcon />;
+                          break;
+                        case 'Transportation':
+                          categoryIcon = <DirectionsCarIcon />;
+                          break;
+                        case 'Life & Entertainment':
+                          categoryIcon = <NightlifeIcon />;
+                          break;
+                        case 'Others':
+                          categoryIcon = <MoreIcon />;
+                          break;
+                        default:
+                          categoryIcon = <HelpIcon />;
+                          break;
+                      }
+
+                      return (
+                        <ListItem key={index}>
+                          <ListItemAvatar>
+                            <Avatar>
+                              {categoryIcon}
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            
+                            primary={expense.expenseTitle}
+                            secondary={expense.expenseDesc}
+                            primaryTypographyProps={{ style: { fontWeight: 'bold' } }}
+                          />
+
+                          <ListItemText
+                            primary={"PHP " + formattedAmt }
+                            
+                            secondary={expense.expenseDate}
+                            primaryTypographyProps={{ style: { fontWeight: 'bold', color: 'red'} }}
+                          />
+
+
+                              <StyledButton
+                                edge="end"
+                                aria-label="delete"
+                                onClick={() => handlePayNow(index)}
+                                sx={{
+                                  '& .MuiButton-label': {
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    paddingRight: '10px',
+                                  },
+                                }}
+                              >
+                                <PriceCheckIcon /> Pay Now
+                              </StyledButton>
+
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => handleDeleteExpense(index)}
+                          >
+                            <ModeEditIcon />
+                          </IconButton>
+
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            onClick={() => handleDeleteExpense(index)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+
+                          
+                        </ListItem>
+                      );
+                    })}
                   </List>
-                  
-                </Paper>
+
+                  </div>
+    )}
+
+              <Dialog open={confirmationOpen} onClose={() => setConfirmationOpen(false)}>
+                  <DialogTitle>Confirm Payment</DialogTitle>
+                      <DialogContent>
+                        <Typography variant="body1">
+                             Are you sure you want to pay this expense?
+                        </Typography>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleCancelPayNow} color="primary">
+                          Cancel
+                        </Button>
+                        <Button onClick={handleConfirmPayNow} color="primary">
+                          Confirm
+                        </Button>
+                      </DialogActions>
+               </Dialog>
+              </Paper>
               </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
