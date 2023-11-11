@@ -6,8 +6,13 @@ import { ToastContainer } from 'react-toastify'
 
 export default function BankingApp() {
     useEffect(() => {
-        localStorage.setItem('users', JSON.stringify(userList))
-    }, [])
+        const storedUsers = JSON.parse(localStorage.getItem('users'));
+        
+
+        if (storedUsers === null) {
+            localStorage.setItem('users', JSON.stringify(userList));
+        }
+    }, [userList])
     return (
         <main style={{display: 'flex'}}>
         <NavBarSide />

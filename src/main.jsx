@@ -69,7 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'banking-app',
-    element: <BankingAppProtectedRoute><BankingApp /></BankingAppProtectedRoute>,
+    element: <BankingApp />,
     children: [
       {
         path: '',
@@ -97,6 +97,7 @@ const router = createBrowserRouter([
         path: 'user/:userId',
         element: <UserInfo />,
         loader: userLoader,
+        action: withdrawAction
       },
       {
         path: 'user/:userId/edit',
@@ -115,6 +116,8 @@ const router = createBrowserRouter([
     element: <NotFound />,
   },
 ]);
+
+ReactModal.setAppElement('#root')
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
