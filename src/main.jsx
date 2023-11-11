@@ -27,6 +27,7 @@ import BankingLogin from './banking-app/pages/BankingLogin.jsx';
 import BankingRegister from './banking-app/pages/BankingRegister.jsx';
 import BankingAppProtectedRoute from './banking-app/bank-components/BankingAppProtectedRoute.jsx';
 import BankingLogout from './banking-app/pages/bankingLogout.jsx';
+import ReactModal from 'react-modal';
 
 const router = createBrowserRouter([
   {path:'/landing-page',
