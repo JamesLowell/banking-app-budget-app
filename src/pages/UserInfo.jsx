@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, Form, useNavigate } from "react-router-dom";
 import "./UserInfo.css";
-import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
+import { NavLink, useLoaderData } from "react-router-dom";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { GiPayMoney } from "react-icons/gi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
@@ -23,7 +23,6 @@ export async function userLoader({ params }) {
 
 const UserInfo = () => {
   const user = useLoaderData();
-  const navigate = useNavigate()
 
   const [modalType, setModalType] = useState(null);
 
@@ -108,7 +107,7 @@ const UserInfo = () => {
         className="my-modal"
         overlayClassName="my-overlay"
       >
-        <DepositModal isOpen={modalType === 'deposit'} onRequestClose={closeModal} />
+        <DepositModal isOpen={modalType === 'deposit'} onRequestClose={closeModal} currentUserId={user.id}/>
       </ReactModal>
       <ReactModal
         isOpen={modalType === 'transfer'}
@@ -116,7 +115,7 @@ const UserInfo = () => {
         className="my-modal"
         overlayClassName="my-overlay"
       >
-        <TransferModal isOpen={modalType === 'transfer'} onRequestClose={closeModal} />
+        <TransferModal isOpen={modalType === 'transfer'} onRequestClose={closeModal} currentUserId={user.id}/>
       </ReactModal>
     </div>
   );
