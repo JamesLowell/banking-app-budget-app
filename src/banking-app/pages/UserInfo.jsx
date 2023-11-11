@@ -23,10 +23,11 @@ export async function userLoader({ params }) {
 
 const UserInfo = () => {
   const user = useLoaderData();
+
   const [modalType, setModalType] = useState(null);
 
   const openModal = (type) => {
-    setModalType(type);
+    setModalType(type)
   };
 
   const closeModal = () => {
@@ -40,20 +41,7 @@ const UserInfo = () => {
       </div>
       <div style={{ position: "absolute", right: "6rem", top: "1rem" }}>
         <span><Clock /></span>
-      </div>
-      <div className="userInfo relative">
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <h1 className="lastName">{user.lastName},</h1>
-          <h1 className="firstName">{user.firstName}</h1>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", fontStyle: "italic", letterSpacing: ".1rem", color: "black" }}>
-          <span className="address">{user.address}</span>
-          <span className="contactNumber">{user.contactNumber}</span>
-          <span className="email">{user.email}</span>
-          <span className="amount">Balance: {user.amount}</span>
-          <Link to={`../user/${user.id}/edit`} className="absolute bottom-4 right-32">Edit User Information</Link>
-        </div>
-        
+      </div>    
         <div className="userInfo relative">
           <div style={{ display: "flex", gap: "1rem" }}>
             <h1 className="lastName">{user.lastName},</h1>
@@ -90,7 +78,7 @@ const UserInfo = () => {
           </ul>
         </div>
         <div className="bankActivity" style={{ width: '100%' }}>
-          <NavLink onClick={() => openModal('withdraw')} className="withDraw">
+          <NavLink onClick={() => {openModal('withdraw') }} className="withDraw">
             <span><BiMoneyWithdraw /></span>
             <div className="text">Withdraw</div>
           </NavLink>
@@ -119,7 +107,7 @@ const UserInfo = () => {
         className="my-modal"
         overlayClassName="my-overlay"
       >
-        <DepositModal isOpen={modalType === 'deposit'} onRequestClose={closeModal} />
+        <DepositModal isOpen={modalType === 'deposit'} onRequestClose={closeModal} currentUserId={user.id}/>
       </ReactModal>
       <ReactModal
         isOpen={modalType === 'transfer'}
@@ -127,9 +115,8 @@ const UserInfo = () => {
         className="my-modal"
         overlayClassName="my-overlay"
       >
-        <TransferModal isOpen={modalType === 'transfer'} onRequestClose={closeModal} />
+        <TransferModal isOpen={modalType === 'transfer'} onRequestClose={closeModal} currentUserId={user.id}/>
       </ReactModal>
-    </div>
     </div>
   );
 };
