@@ -26,6 +26,32 @@ import BankingRegister from './banking-app/pages/BankingRegister.jsx';
 import BankingAppProtectedRoute from './banking-app/bank-components/BankingAppProtectedRoute.jsx';
 import BankingLogout from './banking-app/pages/bankingLogout.jsx';
 import ReactModal from 'react-modal';
+import BudgetApp from './BudgetApp.jsx';
+import BankingDashBoard from './pages/bankingDashBoard.jsx';
+import BankingApp from './BankingApp.jsx';
+import Settings from './pages/setting.jsx';
+import CreateNewUser, { createNewUserAction } from './bank-components/CreateNewUser.jsx'
+import Home from './pages/home.jsx';
+import NotFound from './pages/NotFound.jsx';
+import UserInfo, { userLoader } from './pages/UserInfo.jsx';
+import LandingPage from './LandingPage.jsx';
+import EditUser, { editUserAction } from './bank-components/EditUser.jsx';
+import CustomerList, { usersLoader } from './bank-components/CustomerList';
+import UserDetails from './bank-components/UserDetails';
+import { getContact } from './GetContact.jsx';
+import Login from './pages/login';
+import Register from './pages/register';
+import budgetDashboard from './pages/budgetDashboard.jsx';
+import ExpenseTracker from './pages/expense-tracker';
+import ProtectedRoute  from './component/protected-route';
+import '../src/App.css';
+import './index.css';
+import BankingLogin from './pages/BankingLogin.jsx';
+import BankingRegister from './pages/BankingRegister';
+import BankingAppProtectedRoute from './component/BankingAppProtectedRoute.jsx';
+import BankingLogout from './pages/bankingLogout.jsx';
+import CreateBudget from './pages/CreateBudget.jsx';
+import CreateGoals from './pages/CreateGoals.jsx';
 
 const router = createBrowserRouter([
   {path:'/landing-page',
@@ -51,6 +77,14 @@ const router = createBrowserRouter([
     {
       path:"expense",
       element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
+    },
+    {
+      path:"CreateBudget",
+      element: <CreateBudget />,
+    },
+    {
+      path:"CreateGoals",
+      element: <ProtectedRoute> <CreateGoals /> </ProtectedRoute>,
     },
   ]
 },
