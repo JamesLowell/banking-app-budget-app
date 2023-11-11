@@ -9,7 +9,7 @@ import Settings from './banking-app/pages/setting.jsx';
 import CreateNewUser, { createNewUserAction } from './banking-app/bank-components/CreateNewUser.jsx'
 import Home from './banking-app/pages/home.jsx';
 import NotFound from './component/NotFound.jsx';
-import { withdrawAction } from './pages/WithdrawModal.jsx';
+import { withdrawAction } from '.banking-app/bank-component/transaction-modal/WithdrawModal.jsx';
 import UserInfo, { userLoader } from './banking-app/pages/UserInfo.jsx';
 import LandingPage from './landing-page/LandingPage.jsx';
 import EditUser, { editUserAction } from './banking-app/bank-components/EditUser.jsx';
