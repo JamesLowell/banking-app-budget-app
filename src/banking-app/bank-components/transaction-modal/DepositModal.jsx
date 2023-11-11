@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from 'react'
 import { toast } from "react-toastify";
 import { AiOutlineClose } from "react-icons/ai";
-import "./modal.css";
+import "./assets/modal.css";
 
 const DepositModal = ({ isOpen, onRequestClose, currentUserId }) => {
   const [depositAmount, setDepositAmount] = useState('');

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import "./modal.css";
+import "./assets/modal.css";
 
 const TransferModal = ({ isOpen, onRequestClose, currentUserId }) => {
   const [transferAmount, setTransferAmount] = useState('');

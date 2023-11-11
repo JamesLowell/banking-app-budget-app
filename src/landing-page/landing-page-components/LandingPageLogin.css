@@ -1,0 +1,9 @@
+.landingPageLogin-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10rem;
+    gap: 2rem;
+    height: 10rem;;
+}

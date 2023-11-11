@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
 import {motion, useMotionValueEvent, useScroll} from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import ReactModal from 'react-modal'
+import LandingPageLogin from './LandingPageLogin'
 
 const NavbarTop = () => {
     const { scrollY } = useScroll()
@@ -14,6 +16,15 @@ const NavbarTop = () => {
             setHidden(false)
         }
     })
+
+    const [modalType, setModalType] = useState(null);
+    const openModal = (type) => {
+        setModalType(type);
+      };
+    
+      const closeModal = () => {
+        setModalType(null);
+      };
 
   return (
     <>
@@ -36,10 +47,20 @@ const NavbarTop = () => {
                 <li>Contact Us</li>
             </ul>
             <div>
+            <NavLink onClick={() => openModal('LandingPageLogin')}>
                 <button className='rounded-md border-2 border-black py-4 px-8 shadow-md shadow-slate-950 hover:shadow-lg hover:shadow-slate-950 font-mulish font-bold'>
                     Log in!
                 </button>
+                </NavLink>   
             </div>
+            <ReactModal
+        isOpen={modalType === 'LandingPageLogin'}
+        onRequestClose={closeModal}
+        className="my-modal"
+        overlayClassName="my-overlay"
+      >
+        <LandingPageLogin isOpen={modalType === 'LandingPageLogin'} onRequestClose={closeModal} />
+      </ReactModal>
         </motion.nav>
     </>
   )
