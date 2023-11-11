@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import "./modal.css";
+import "./assets/modal.css";
 import { toast } from "react-toastify";
 import { useLoaderData, Form, redirect } from "react-router-dom";
 
