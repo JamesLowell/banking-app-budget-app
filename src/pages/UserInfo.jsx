@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { Link, Form } from "react-router-dom";
+import { Link, Form, useNavigate } from "react-router-dom";
 import "./UserInfo.css";
-import { NavLink, useLoaderData, Form, Link } from "react-router-dom";
+import { NavLink, useLoaderData, useNavigate } from "react-router-dom";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { GiPayMoney } from "react-icons/gi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
@@ -23,10 +23,12 @@ export async function userLoader({ params }) {
 
 const UserInfo = () => {
   const user = useLoaderData();
+  const navigate = useNavigate()
+
   const [modalType, setModalType] = useState(null);
 
   const openModal = (type) => {
-    setModalType(type);
+    setModalType(type)
   };
 
   const closeModal = () => {
@@ -77,7 +79,7 @@ const UserInfo = () => {
           </ul>
         </div>
         <div className="bankActivity" style={{ width: '100%' }}>
-          <NavLink onClick={() => openModal('withdraw')} className="withDraw">
+          <NavLink onClick={() => {openModal('withdraw') }} className="withDraw">
             <span><BiMoneyWithdraw /></span>
             <div className="text">Withdraw</div>
           </NavLink>

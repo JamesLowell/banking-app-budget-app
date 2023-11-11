@@ -10,6 +10,7 @@ import CreateNewUser, { createNewUserAction } from './bank-components/CreateNewU
 import Home from './pages/home.jsx';
 import NotFound from './pages/NotFound.jsx';
 import UserInfo, { userLoader } from './pages/UserInfo.jsx';
+import WithdrawModal, { withdrawAction } from './pages/WithdrawModal.jsx';
 import LandingPage from './LandingPage.jsx';
 import EditUser, { editUserAction } from './bank-components/EditUser.jsx';
 import CustomerList, { usersLoader } from './bank-components/CustomerList';
@@ -26,6 +27,7 @@ import BankingLogin from './pages/BankingLogin.jsx';
 import BankingRegister from './pages/BankingRegister';
 import BankingAppProtectedRoute from './component/BankingAppProtectedRoute.jsx';
 import BankingLogout from './pages/bankingLogout.jsx';
+import ReactModal from 'react-modal';
 
 const router = createBrowserRouter([
 {
@@ -61,7 +63,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'banking-app',
-    element: <BankingAppProtectedRoute><BankingApp /></BankingAppProtectedRoute>,
+    element: <BankingApp />,
     children: [
       {
         path: '',
@@ -89,6 +91,7 @@ const router = createBrowserRouter([
         path: 'user/:userId',
         element: <UserInfo />,
         loader: userLoader,
+        action: withdrawAction
       },
       {
         path: 'user/:userId/edit',
@@ -107,6 +110,8 @@ const router = createBrowserRouter([
     element: <NotFound />,
   },
 ]);
+
+ReactModal.setAppElement('#root')
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
