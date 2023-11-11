@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { toast } from "react-toastify";
 import "./assets/modal.css";
 
 const TransferModal = ({ isOpen, onRequestClose, currentUserId }) => {
