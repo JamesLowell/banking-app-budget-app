@@ -14,8 +14,6 @@ import UserInfo, { userLoader } from './banking-app/pages/UserInfo.jsx';
 import LandingPage from './landing-page/LandingPage.jsx';
 import EditUser, { editUserAction } from './banking-app/bank-components/EditUser.jsx';
 import CustomerList, { usersLoader } from './banking-app/bank-components/CustomerList.jsx';
-import UserDetails from './banking-app/bank-components/UserDetails.jsx';
-import { getContact } from './banking-app/bank-components/GetContact.jsx';
 import Login from './budget-app/pages/login.jsx';
 import Register from './budget-app/pages/register.jsx';
 import BudgetDashboard from './budget-app/pages/budgetDashboard.jsx';
@@ -71,7 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'banking-app',
-    element: <BankingApp />,
+    element: <BankingAppProtectedRoute ><BankingApp /> </BankingAppProtectedRoute>,
     children: [
       {
         path: '',
