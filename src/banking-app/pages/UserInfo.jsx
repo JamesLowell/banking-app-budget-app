@@ -118,6 +118,7 @@ const UserInfo = () => {
         <TransferModal isOpen={modalType === 'transfer'} onRequestClose={closeModal} currentUserId={user.id}/>
       </ReactModal>
     </div>
+    </div>
   );
 };
 

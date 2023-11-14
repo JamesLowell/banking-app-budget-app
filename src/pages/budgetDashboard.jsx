@@ -100,7 +100,7 @@ function MoneyActionIcon(props) {
   );
 }
 
-export default function Dashboard() {
+export default function BudgetDashboard() {
   const [open, setOpen] = React.useState(false);
   const [firstName, setFirstName] = React.useState('User');
   const [acctBalance, setAcctBalance] = React.useState('0.00');
