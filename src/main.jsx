@@ -52,6 +52,9 @@ import BankingAppProtectedRoute from './component/BankingAppProtectedRoute.jsx';
 import BankingLogout from './pages/bankingLogout.jsx';
 import CreateBudget from './pages/CreateBudget.jsx';
 import CreateGoals from './pages/CreateGoals.jsx';
+import CreateBudget from './budget-app/pages/CreateBudget.jsx';
+import CreateGoals from './budget-app/pages/CreateGoals.jsx';
+import ViewBudgetGoals from './budget-app/pages/viewBudgetGoals.jsx';
 
 const router = createBrowserRouter([
   {path:'/landing-page',
@@ -61,7 +64,7 @@ const router = createBrowserRouter([
   path: '/budget',
   element: <BudgetApp />,
   children: [
-    { 
+    {
       path:"login",
       element: <Login />,
       index: true,
@@ -79,12 +82,16 @@ const router = createBrowserRouter([
       element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
     },
     {
-      path:"CreateBudget",
-      element: <CreateBudget />,
+      path: "CreateBudget",
+      element: <ProtectedRoute> <CreateBudget /> </ProtectedRoute>,
     },
     {
-      path:"CreateGoals",
-      element: <CreateGoals /> ,
+      path: "CreateGoals",
+      element: <ProtectedRoute> <CreateGoals /> </ProtectedRoute>,
+    },
+    {
+      path: "ViewBudgetGoals",
+      element: <ProtectedRoute> <ViewBudgetGoals /> </ProtectedRoute>,
     },
   ]
 },

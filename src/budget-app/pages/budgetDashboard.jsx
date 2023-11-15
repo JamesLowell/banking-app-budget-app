@@ -462,6 +462,7 @@ const handleAddBalance = () => {
           {/* Create Budget, Create Goals, View Budget & Goals, Expense Tracker ICONS */}
           <Grid item xs={12} md={4} lg={6} sx={{ marginTop:8,display: 'flex' , justifyContent:'center', alignItems: 'center', textAlign:'center' }}>
 
+<<<<<<< HEAD
           <a href='#' id="icon-design">
             <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%'}} />
           </a>
@@ -469,6 +470,15 @@ const handleAddBalance = () => {
             <MoneyActionIcon text="Create Goals" icon={<EditNoteIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
           </a>
           <a href='#'>
+=======
+          <a href='/budget/CreateBudget' id="icon-design">
+            <MoneyActionIcon text="Create Budget" icon={<AddToQueueIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%'}} />
+          </a>
+          <a href='/budget/CreateGoals'>
+            <MoneyActionIcon text="Create Goals" icon={<EditNoteIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
+          </a>
+          <a href='/budget/ViewBudgetGoals'>
+>>>>>>> 32634b8d (create)
           <MoneyActionIcon text="Budgets & Goals" icon={<AnalyticsIcon fontSize="large" />} sx={{ flexBasis: '100%', maxWidth: '100%' }} />
           </a>
           <a href='/budget/expense'>
