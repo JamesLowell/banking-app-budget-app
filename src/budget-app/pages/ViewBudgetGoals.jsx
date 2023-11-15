@@ -25,6 +25,7 @@ import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import { DeleteBudget, GetBudgets } from './store/budgetstore';
 
 
 const StyledButton = styled(Button)({
@@ -131,26 +132,25 @@ export default function ViewBudgetGoals() {
   };
 
   const handleUpdateExpense = (updatedExpense) => {
-  // Find the expense to be updated in the expenseList
-  const updatedExpenseList = expenseList.map((expense, index) => {
-    if (index === selectedIndex) {
-      return updatedExpense; // Replace the expense with the updated one
-    }
-    return expense;
-  });
+    // Find the expense to be updated in the expenseList
+    const updatedExpenseList = expenseList.map((expense, index) => {
+      if (index === selectedIndex) {
+        return updatedExpense; // Replace the expense with the updated one
+      }
+      return expense;
+    });
 
-  // Update the state with the modified expense list
-  setExpenseList(updatedExpenseList);
+    // Update the state with the modified expense list
+    setExpenseList(updatedExpenseList);
 
-  // Retrieve the email of the logged-in user
-  const loggedIn = storedUserInfo.email;
+    // Retrieve the email of the logged-in user
+    const loggedIn = storedUserInfo.email;
 
-  // Update the local storage with the modified expense list
-  localStorage.setItem(loggedIn, JSON.stringify(updatedExpenseList));
+    // Update the local storage with the modified expense list
+    localStorage.setItem(loggedIn, JSON.stringify(updatedExpenseList));
 
-  setEditExpense(null); // Clear the edited expense state
-};
-
+    setEditExpense(null); // Clear the edited expense state
+  };
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -230,8 +230,11 @@ const handleAddBalance = () => {
     if (userInfo && userInfo.firstName) {
       setFirstName(userInfo.firstName);
     }
+    
     //displays expense list
     retrieveExpenseList();
+
+    retrieveBudgetList();
   }, []); 
 
   const [expenseList, setExpenseList] = useState([]);
@@ -244,6 +247,12 @@ const handleAddBalance = () => {
       const existingExpenseData = JSON.parse(expenseDataString);
       setExpenseList(existingExpenseData);
     }
+  };
+
+  const [budgetList, setBudgetList] = useState([]);
+  const retrieveBudgetList = () => {
+    const loggedIn = storedUserInfo.email;
+    setBudgetList(GetBudgets(loggedIn));
   };
 
   const handleDeleteExpense = (index) => {
@@ -260,6 +269,17 @@ const handleAddBalance = () => {
 
     // Update the local storage with the modified expense list
     localStorage.setItem(loggedIn, JSON.stringify(updatedExpenseList));
+  };
+
+  const handleDeleteBudget = (index) => {
+    
+    // Retrieve the email of the logged-in user
+    const loggedIn = storedUserInfo.email;
+
+    DeleteBudget(loggedIn, index);
+
+    setBudgetList(GetBudgets(loggedIn))
+
   };
 
   const handleBackToDashboard = () => {
@@ -286,16 +306,16 @@ const handleAddBalance = () => {
           Budget Tracker
         </Typography>
 
-        {expenseList.length === 0 ? (
-          <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<AttachMoneyIcon /> Add Expense" to create expense list</Typography>
+        {budgetList.length === 0 ? (
+          <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<AttachMoneyIcon /> Add Budget" to create budget list</Typography>
         ) : (
       <div style={{ overflowY: 'scroll', maxHeight: '440px' }}>
-        {/* Expense List */}
+        {/* Budget List */}
         <List>
-          {expenseList.map((expense, index) => {
-            let formattedAmt = parseFloat(expense.expenseAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          {budgetList.map((budget, index) => {
+            let formattedAmt = parseFloat(budget.budgetAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
             let categoryIcon;
-            switch (expense.expenseCategory) {
+            switch (budget.budgetCategory) {
               case 'Food & Drinks':
                 categoryIcon = <FastfoodIcon />;
                 break;
@@ -349,8 +369,8 @@ const handleAddBalance = () => {
                   }}
 
 
-                  primary={expense.expenseTitle}
-                  secondary={expense.expenseDesc}
+                  primary={budget.budgetName}
+                  //secondary={expense.expenseDesc}
 
 
                 />
@@ -358,7 +378,7 @@ const handleAddBalance = () => {
                 <ListItemText
                   primary={"PHP " + formattedAmt }
 
-                  secondary={expense.expenseDate}
+                  secondary={budget.budgetstartDate}
                   primaryTypographyProps={{ style: { fontWeight: 'bold', color: 'red'} }}
                 />
 
@@ -397,7 +417,7 @@ const handleAddBalance = () => {
                 <IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => handleDeleteExpense(index)}
+                  onClick={() => handleDeleteBudget(index)}
                 >
                   <DeleteIcon />
                 </IconButton>

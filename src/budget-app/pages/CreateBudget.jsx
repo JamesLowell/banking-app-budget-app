@@ -13,6 +13,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { GetBudgets, StoreBudget } from './store/budgetstore';
 
 const defaultTheme = createTheme({
   palette: {
@@ -100,35 +101,20 @@ export default function CreateBudget() {
   
       if (userInfo.email) {
 
-        const localStorageKey = userInfo.email;
-        const existingDataString = localStorage.getItem(localStorageKey);
-
-        let existingData = [];
-  
-        if (existingDataString) {
-          existingData = JSON.parse(existingDataString);
-          const titleExists = existingData.some(entry => entry.budgetName === budgetName);
-  
-          if (titleExists) {
-            alert('budget title already exists. Please choose a different title.');
-            return;
-          }
+        if (GetBudgets(userInfo.email).some(entry => entry.budgetName === budgetName)) {
+          alert('budget title already exists. Please choose a different title.');
+          return;
         }
-  
-        existingData.push(budgetData);
-        localStorage.setItem(localStorageKey, JSON.stringify(existingData));
+
+        StoreBudget(userInfo.email, budgetData)
 
         setbudgetName('');
         setCategory('');
         setbudgetstartDate('');
         setbudgetendDate('');
         setbudgetPeriod('');
-        setbudgetAmount('');
-        
-
+        setbudgetAmount('');        
         alert('Success!')
-
-       
 
       } else {
         console.error('User-info does not contain an email.');
