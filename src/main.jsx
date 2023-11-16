@@ -26,6 +26,9 @@ import BankingRegister from './banking-app/pages/BankingRegister.jsx';
 import BankingAppProtectedRoute from './banking-app/bank-components/BankingAppProtectedRoute.jsx';
 import BankingLogout from './banking-app/pages/bankingLogout.jsx';
 import ReactModal from 'react-modal';
+import CreateBudget from './budget-app/pages/CreateBudget.jsx';
+import CreateGoals from './budget-app/pages/CreateGoals.jsx';
+import ViewBudgetGoals from './budget-app/pages/ViewBudgetGoals.jsx';
 
 const router = createBrowserRouter([
   {path:'/landing-page',
@@ -51,6 +54,18 @@ const router = createBrowserRouter([
     {
       path:"expense",
       element: <ProtectedRoute> <ExpenseTracker /> </ProtectedRoute>,
+    },
+    {
+      path: "CreateBudget",
+      element: <ProtectedRoute> <CreateBudget /> </ProtectedRoute>,
+    },
+    {
+      path: "CreateGoals",
+      element: <ProtectedRoute> <CreateGoals /> </ProtectedRoute>,
+    },
+    {
+      path: "ViewBudgetGoals",
+      element: <ProtectedRoute> <ViewBudgetGoals /> </ProtectedRoute>,
     },
   ]
 },
