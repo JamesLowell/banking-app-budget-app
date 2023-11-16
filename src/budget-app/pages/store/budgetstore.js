@@ -46,3 +46,5 @@ export function DeleteBudget(user, index) {
 
     localStorage.setItem(`${KEY}:${user}`, JSON.stringify(budgets));
 }
+
+

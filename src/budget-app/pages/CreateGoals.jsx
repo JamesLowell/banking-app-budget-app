@@ -15,6 +15,7 @@ import HouseIcon from '@mui/icons-material/House';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import NightlifeIcon from '@mui/icons-material/Nightlife';
 import MoreIcon from '@mui/icons-material/More';
+import { GetGoals, StoreGoals } from './store/goalstore';
 
 const defaultTheme = createTheme({
   palette: {
@@ -86,24 +87,12 @@ export default function CreateGoals() {
   
       if (userInfo.email) {
 
-        const localStorageKey = userInfo.email;
-        const existingDataString = localStorage.getItem(localStorageKey);
-
-        let existingData = [];
-  
-        if (existingDataString) {
-          existingData = JSON.parse(existingDataString);
-          const nameExists = existingData.some(entry => entry.goalsName === goalsName);
-  
-          if (nameExists) {
-            alert('goals name already exists. Please choose a different name.');
-            return;
-          }
+        if (GetGoals(userInfo.email).some(entry => entry.goalsName === goalsName)) {
+          alert('budget title already exists. Please choose a different title.');
+          return;
         }
-  
-        existingData.push(goalsData);
-        localStorage.setItem(localStorageKey, JSON.stringify(existingData));
 
+        StoreGoals(userInfo.email, goalsData)
         
         setCategory('');
         setgoalsName('');

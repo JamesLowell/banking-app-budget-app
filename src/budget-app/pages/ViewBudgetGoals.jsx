@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, DialogTitle, TextField } from '@mui/material';
-import MuiAppBar from '@mui/material/AppBar';
+import FormControl from '@mui/material/FormControl';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
+import AddToQueueIcon from '@mui/icons-material/AddToQueue';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
@@ -26,6 +28,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { DeleteBudget, GetBudgets } from './store/budgetstore';
+import { DeleteGoal, GetGoals } from './store/goalstore';
+
 
 
 const StyledButton = styled(Button)({
@@ -232,27 +236,23 @@ const handleAddBalance = () => {
     }
     
     //displays expense list
-    retrieveExpenseList();
+    retrieveGoalsList();
 
     retrieveBudgetList();
   }, []); 
 
   const [expenseList, setExpenseList] = useState([]);
-
-  const retrieveExpenseList = () => {
-    const loggedIn = storedUserInfo.email;
-    const expenseDataString = localStorage.getItem(loggedIn);
-
-    if (expenseDataString) {
-      const existingExpenseData = JSON.parse(expenseDataString);
-      setExpenseList(existingExpenseData);
-    }
-  };
-
+  
   const [budgetList, setBudgetList] = useState([]);
   const retrieveBudgetList = () => {
     const loggedIn = storedUserInfo.email;
     setBudgetList(GetBudgets(loggedIn));
+  };
+
+  const [goalsList, setGoalsList] = useState([]);
+  const retrieveGoalsList = () => {
+    const loggedIn = storedUserInfo.email;
+    setGoalsList(GetGoals(loggedIn));
   };
 
   const handleDeleteExpense = (index) => {
@@ -263,6 +263,7 @@ const handleAddBalance = () => {
 
     // Update the state with the modified list (removed item)
     setExpenseList(updatedExpenseList);
+    
 
     // Retrieve the email of the logged-in user
     const loggedIn = storedUserInfo.email;
@@ -282,12 +283,25 @@ const handleAddBalance = () => {
 
   };
 
+  const handleDeleteGoals = (index) => {
+    
+    // Retrieve the email of the logged-in user
+    const loggedIn = storedUserInfo.email;
+
+    DeleteGoal(loggedIn, index);
+
+    setGoalsList(GetGoals(loggedIn))
+
+  };
+
   const handleBackToDashboard = () => {
     window.location.href = '/budget/dashboard';
   };
 
   return (
     <div>
+      <Grid container spacing={3} justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
+        <Grid item xs={12} md={6}>
     <Grid item xs={12}>
     <Paper
         sx={{
@@ -307,9 +321,11 @@ const handleAddBalance = () => {
         </Typography>
 
         {budgetList.length === 0 ? (
-          <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<AttachMoneyIcon /> Add Budget" to create budget list</Typography>
+          <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<AddToQueueIcon /> Add Budget" to create budget list</Typography>
         ) : (
       <div style={{ overflowY: 'scroll', maxHeight: '440px' }}>
+        
+        
         {/* Budget List */}
         <List>
           {budgetList.map((budget, index) => {
@@ -383,36 +399,6 @@ const handleAddBalance = () => {
                 />
 
 
-                    <StyledButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => handlePayNow(index)}
-                      sx={{
-                        '& .MuiButton-label': {
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingRight: '10px',
-                        },
-                      }}
-                    >
-                      <PriceCheckIcon /> Pay Now
-                    </StyledButton>
-
-                    <IconButton 
-                      edge="end"
-                      aria-label="edit" 
-                      onClick={() => handleEditExpense(expense)}>
-                      <ModeEditIcon />  
-                    </IconButton>
-
-                    {/* Render EditExpenseModal */}
-                      {editExpense && (
-                        <EditExpenseModal
-                          expense={editExpense}
-                          onUpdate={handleUpdateExpense}
-                          onCancel={() => setEditExpense(null)}
-                        />
-                      )}
 
                 <IconButton
                   edge="end"
@@ -449,6 +435,7 @@ const handleAddBalance = () => {
      </Dialog>
     </Paper>
     </Grid> 
+    <FormControl sx={{ marginTop: 3}}>
     <Grid item xs={12}>
     <Paper
         sx={{
@@ -467,16 +454,19 @@ const handleAddBalance = () => {
           Goal Tracker
         </Typography>
 
-        {expenseList.length === 0 ? (
-          <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<AttachMoneyIcon /> Add Expense" to create expense list</Typography>
+        {goalsList.length === 0 ? (
+          <Typography padding="20px" color="gray" fontStyle="italic" textAlign="center">List is empty. Click on the "<EditNoteIcon /> Add Goals" to create goals list</Typography>
         ) : (
       <div style={{ overflowY: 'scroll', maxHeight: '440px' }}>
-        {/* Expense List */}
+        
+        
+        
+        {/* Goals List */}
         <List>
-          {expenseList.map((expense, index) => {
-            let formattedAmt = parseFloat(expense.expenseAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          {goalsList.map((goal, index) => {
+            let formattedAmt = parseFloat(goal.goalstargetAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
             let categoryIcon;
-            switch (expense.expenseCategory) {
+            switch (goal.goalsCategory) {
               case 'Food & Drinks':
                 categoryIcon = <FastfoodIcon />;
                 break;
@@ -530,8 +520,8 @@ const handleAddBalance = () => {
                   }}
 
 
-                  primary={expense.expenseTitle}
-                  secondary={expense.expenseDesc}
+                  primary={goal.goalsName}
+                  secondary={goal.goalsCategory}
 
 
                 />
@@ -539,46 +529,16 @@ const handleAddBalance = () => {
                 <ListItemText
                   primary={"PHP " + formattedAmt }
 
-                  secondary={expense.expenseDate}
+                  secondary={goal.goalsSaved}
                   primaryTypographyProps={{ style: { fontWeight: 'bold', color: 'red'} }}
                 />
 
 
-                    <StyledButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => handlePayNow(index)}
-                      sx={{
-                        '& .MuiButton-label': {
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingRight: '10px',
-                        },
-                      }}
-                    >
-                      <PriceCheckIcon /> Pay Now
-                    </StyledButton>
-
-                    <IconButton 
-                      edge="end"
-                      aria-label="edit" 
-                      onClick={() => handleEditExpense(expense)}>
-                      <ModeEditIcon />  
-                    </IconButton>
-
-                    {/* Render EditExpenseModal */}
-                      {editExpense && (
-                        <EditExpenseModal
-                          expense={editExpense}
-                          onUpdate={handleUpdateExpense}
-                          onCancel={() => setEditExpense(null)}
-                        />
-                      )}
-
+                    
                 <IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => handleDeleteExpense(index)}
+                  onClick={() => handleDeleteGoals(index)}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -610,6 +570,7 @@ const handleAddBalance = () => {
      </Dialog>
     </Paper>
     </Grid> 
+    </FormControl>
     <Grid container justifyContent="space-between" sx={{ marginTop: 3 }}>
               <Button
                 type="button"
@@ -620,6 +581,8 @@ const handleAddBalance = () => {
               >
                 Back to Dashboard
               </Button>
+            </Grid>
+            </Grid>
             </Grid>
     </div>
 

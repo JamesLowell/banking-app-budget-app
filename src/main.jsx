@@ -28,7 +28,7 @@ import BankingLogout from './banking-app/pages/bankingLogout.jsx';
 import ReactModal from 'react-modal';
 import CreateBudget from './budget-app/pages/CreateBudget.jsx';
 import CreateGoals from './budget-app/pages/CreateGoals.jsx';
-import ViewBudgetGoals from './budget-app/pages/viewBudgetGoals.jsx';
+import ViewBudgetGoals from './budget-app/pages/ViewBudgetGoals.jsx';
 
 const router = createBrowserRouter([
   {path:'/landing-page',
